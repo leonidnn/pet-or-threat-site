@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pet or Threat</title>
+<meta name="description" content="A Unitree Go1 robot dog in a living-room simulation that decides for itself when to play, guard or sleep, and shows why on screen.">
+<meta property="og:title" content="Pet or Threat">
+<meta property="og:description" content="A robot dog with a character: it decides for itself when to play, guard or sleep.">
+<meta property="og:image" content="media/en/trailer.jpg">
+<meta name="theme-color" content="#0f0e0c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&subset=cyrillic,latin&display=swap">
+<style>
+/* A cinema lobby: footage first, short lines of warm type, two accents taken from the films,
+   amber for "pet" and red for "threat". Single dark theme on purpose. */
+:root {
+  --ink: #0f0e0c;
+  --panel: #18160f;
+  --raise: #221f19;
+  --line: #2f2b24;
+  --text: #f1ebe1;
+  --muted: #a89f92;
+  --pet: #f4ad63;
+  --threat: #ff5d50;
+  --cool: #78aaff;
+  --scrim: rgba(10, 9, 7, 0.7);
+  --display: "Oswald", "Bahnschrift", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", Consolas, monospace;
+  --s-1: clamp(0.84rem, 0.8rem + 0.15vw, 0.92rem);
+  --s0: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
+  --s1: clamp(1.18rem, 1.08rem + 0.45vw, 1.42rem);
+  --s2: clamp(1.6rem, 1.3rem + 1.2vw, 2.4rem);
+  --s3: clamp(2.3rem, 1.7rem + 2.6vw, 4rem);
+  --s4: clamp(3.3rem, 2rem + 6vw, 8rem);
+  --gl: max(20px, env(safe-area-inset-left, 0px));
+  --gr: max(20px, env(safe-area-inset-right, 0px));
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before { animation: none !important; transition: none !important; } }
+body { margin: 0; background: var(--ink); color: var(--text); font-family: var(--body); font-size: var(--s0); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+img, video { max-width: 100%; display: block; }
+a { color: inherit; }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--pet); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.05; margin: 0; text-wrap: balance; text-transform: uppercase; letter-spacing: 0.02em; }
+p { margin: 0; }
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: var(--gl); padding-right: var(--gr); }
+.eyebrow { font-family: var(--display); font-weight: 500; font-size: var(--s-1); letter-spacing: 0.24em; text-transform: uppercase; color: var(--pet); }
+section { padding-block: clamp(72px, 10vw, 136px); }
+.head { display: grid; gap: 14px; max-width: 760px; margin-bottom: clamp(32px, 4vw, 56px); }
+.head h2 { font-size: var(--s3); }
+.head p { color: var(--muted); font-size: var(--s1); line-height: 1.5; }
+
+/* nav */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 20; padding-top: env(safe-area-inset-top, 0px);
+  background: linear-gradient(180deg, rgba(15,14,12,0.85), rgba(15,14,12,0)); transition: background 0.3s; }
+.nav.solid { background: rgba(15, 14, 12, 0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; gap: 24px; height: 64px; }
+.brand { font-family: var(--display); font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; font-size: 1.02rem; white-space: nowrap; }
+.brand .p { color: var(--pet); } .brand .t { color: var(--threat); }
+.links { display: flex; gap: 22px; margin-left: auto; }
+.links a { text-decoration: none; color: var(--muted); font-size: 0.92rem; transition: color 0.2s; white-space: nowrap; }
+.links a:hover { color: var(--text); }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: rgba(0,0,0,0.3); }
+.lang button { border: 0; background: transparent; color: var(--muted); font-family: var(--display); letter-spacing: 0.12em; font-size: 0.86rem; padding: 6px 12px; border-radius: 999px; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--pet); color: #1a1108; }
+@media (max-width: 760px) { .links { display: none; } .lang { margin-left: auto; } }
+
+/* hero */
+.hero { position: relative; min-height: min(94vh, 980px); display: grid; align-items: end; overflow: hidden; background: #070605; padding: 0; }
+.hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero::after { content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,7,6,0.55) 0%, rgba(8,7,6,0.35) 35%, rgba(8,7,6,0.72) 64%, rgba(15,14,12,1) 100%); }
+.hero .wrap { position: relative; z-index: 1; padding-bottom: clamp(40px, 7vw, 88px); display: grid; gap: 22px; animation: rise 0.9s ease-out both; }
+@keyframes rise { from { transform: translateY(18px); opacity: 0.001; } to { transform: none; opacity: 1; } }
+.hero h1 { font-size: var(--s4); letter-spacing: 0.04em; line-height: 0.95; }
+.hero h1 .p { color: var(--pet); } .hero h1 .o { color: rgba(241,235,225,0.5); font-weight: 400; } .hero h1 .t { color: var(--threat); }
+.hero .lede { font-size: var(--s1); max-width: 46ch; color: rgba(241,235,225,0.9); line-height: 1.5; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;
+  font-family: var(--display); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.98rem;
+  padding: 13px 24px; border-radius: 999px; border: 1px solid rgba(241,235,225,0.35); background: rgba(0,0,0,0.25); color: var(--text);
+  transition: transform 0.2s, background 0.2s, border-color 0.2s; }
+.btn:hover { transform: translateY(-2px); border-color: var(--text); }
+.btn.main { background: var(--pet); border-color: var(--pet); color: #1a1108; }
+.btn.main:hover { background: #ffbf7c; }
+.btn svg { width: 13px; height: 13px; fill: currentColor; }
+
+/* four points */
+.points { padding-block: 0 clamp(56px, 8vw, 104px); }
+.points ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.points li { background: var(--ink); padding: clamp(22px, 2.6vw, 34px); display: grid; gap: 10px; align-content: start; }
+.points .n { font-family: var(--mono); font-size: 0.8rem; color: var(--pet); }
+.points h3 { font-size: var(--s2); }
+.points p { color: var(--muted); font-size: 0.98rem; }
+@media (max-width: 980px) { .points ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .points ul { grid-template-columns: 1fr; } }
+
+/* films */
+.films { display: grid; gap: 28px 22px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1000px) { .films { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .films { grid-template-columns: 1fr; } }
+.film { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.film.big { grid-column: 1 / -1; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); align-items: center; gap: clamp(20px, 3vw, 44px); }
+@media (max-width: 800px) { .film.big { grid-template-columns: 1fr; } }
+.frame { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; padding: 0; border-radius: 14px; overflow: hidden; cursor: pointer; background: #070605; }
+.frame video, .frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.frame:hover video { transform: scale(1.035); }
+.frame::after { content: ""; position: absolute; inset: 0; border-radius: 14px; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08); transition: box-shadow 0.2s; pointer-events: none; }
+.frame:hover::after { box-shadow: inset 0 0 0 2px var(--c, var(--pet)); }
+.frame .play { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(10,9,7,0.55); border: 1px solid rgba(255,255,255,0.35); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; transition: opacity 0.25s, transform 0.25s; }
+.frame .play svg { width: 18px; height: 18px; fill: #fff; margin-left: 3px; }
+.frame:hover .play, .frame:focus-visible .play { opacity: 1; }
+@media (hover: none) { .frame .play { opacity: 0.9; width: 52px; height: 52px; } }
+.film .tag { display: inline-flex; gap: 8px; align-items: center; font-family: var(--display); letter-spacing: 0.2em; font-size: 0.8rem; text-transform: uppercase; color: var(--muted); }
+.film .tag::before { content: ""; width: 9px; height: 9px; border-radius: 3px; background: var(--c, var(--pet)); }
+.film h3 { font-size: var(--s1); letter-spacing: 0.04em; }
+.film.big h3 { font-size: var(--s3); }
+.film p { color: var(--muted); font-size: 0.97rem; }
+.film.big p { font-size: var(--s1); }
+.film .len { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+
+/* try it */
+.try { background: var(--panel); border-block: 1px solid var(--line); }
+.try .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
+@media (max-width: 900px) { .try .grid { grid-template-columns: 1fr; } }
+.keys { display: grid; gap: 12px; margin-top: 28px; }
+.key { display: grid; grid-template-columns: 200px minmax(0, 1fr); align-items: center; gap: 16px; }
+.caps { display: flex; gap: 6px; flex-wrap: wrap; }
+kbd { font-family: var(--mono); font-size: 0.95rem; min-width: 38px; height: 38px; padding: 0 10px; display: inline-grid; place-items: center;
+  background: var(--raise); border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 8px; color: var(--text); }
+.key span { color: var(--muted); }
+.try figure { margin: 0; border-radius: 16px; overflow: hidden; position: relative; }
+.try figure img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+
+/* how */
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; counter-reset: s; }
+@media (max-width: 1000px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+.step { display: grid; gap: 12px; align-content: start; }
+.step img { border-radius: 12px; aspect-ratio: 16 / 10; object-fit: cover; width: 100%; }
+.step .k { font-family: var(--mono); font-size: 0.8rem; color: var(--pet); }
+.step h3 { font-size: var(--s2); }
+.step p { color: var(--muted); font-size: 0.97rem; }
+.why { margin-top: clamp(36px, 5vw, 60px); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; background: var(--panel); }
+.why .l { font-family: var(--display); letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.8rem; color: var(--pet); }
+.why .line { font-family: var(--mono); font-size: 0.9rem; color: var(--text); transition: opacity 0.35s; min-width: 0; overflow-wrap: anywhere; }
+.why .line b { color: var(--pet); font-weight: 500; }
+
+/* numbers */
+.nums ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+@media (max-width: 900px) { .nums ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.nums li { border-top: 2px solid var(--pet); padding-top: 18px; display: grid; gap: 6px; }
+.nums b { font-family: var(--display); font-size: var(--s3); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+.nums span { color: var(--muted); font-size: 0.97rem; }
+
+/* stills */
+.stills { display: grid; gap: 12px; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.stills figure { margin: 0; grid-column: span 2; border-radius: 12px; overflow: hidden; position: relative; cursor: zoom-in; }
+.stills figure.w { grid-column: span 3; }
+.stills img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 0.6s; }
+.stills figure:hover img { transform: scale(1.04); }
+@media (max-width: 760px) { .stills { grid-template-columns: 1fr 1fr; } .stills figure, .stills figure.w { grid-column: span 2; } }
+
+/* engineers */
+details.eng { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+details.eng summary { cursor: pointer; list-style: none; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-family: var(--display); font-size: var(--s1); letter-spacing: 0.08em; text-transform: uppercase; }
+details.eng summary::-webkit-details-marker { display: none; }
+details.eng summary::after { content: "+"; font-family: var(--mono); color: var(--pet); font-size: 1.4rem; transition: transform 0.2s; }
+details.eng[open] summary::after { transform: rotate(45deg); }
+.eng .body { padding: 0 24px 24px; display: grid; gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 760px) { .eng .body { grid-template-columns: 1fr; } }
+.eng ul { margin: 0; padding-left: 18px; color: var(--muted); display: grid; gap: 8px; }
+.eng ul b { color: var(--text); font-weight: 500; }
+
+footer { border-top: 1px solid var(--line); padding-block: 36px calc(36px + env(safe-area-inset-bottom, 0px)); color: var(--muted); font-size: 0.9rem; }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+
+/* player */
+dialog { border: 0; padding: 0; background: transparent; width: min(1240px, 94vw); max-width: 94vw; color: var(--text); }
+dialog::backdrop { background: rgba(5, 4, 3, 0.9); }
+dialog video, dialog img { width: 100%; border-radius: 12px; background: #000; }
+dialog video { aspect-ratio: 16 / 9; }
+dialog .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 12px; }
+dialog h4 { font-size: var(--s1); }
+dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(--text); border-radius: 999px; padding: 8px 18px; cursor: pointer; font-family: var(--display); letter-spacing: 0.12em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="p">Pet</span> or <span class="t">Threat</span></a>
+    <div class="links">
+      <a href="#films" data-t="nav_films">Films</a>
+      <a href="#try" data-t="nav_try">Try it</a>
+      <a href="#how" data-t="nav_how">How it works</a>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <video data-m="hero_loop.mp4" data-p="trailer.jpg" muted loop playsinline autoplay></video>
+  <div class="wrap">
+    <div class="eyebrow" data-t="hero_eyebrow">A robot dog with a character</div>
+    <h1><span class="p">Pet</span> <span class="o">or</span> <span class="t">Threat</span></h1>
+    <p class="lede" data-t="hero_lede">A Unitree Go1 robot dog in a simulated living room. It decides for itself when to play, when to guard and when to sleep, and shows why, right on screen.</p>
+    <div class="cta">
+      <button class="btn main" type="button" data-play="trailer" data-title-key="f_trailer_t"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 0l9 5-9 5z"/></svg><span data-t="hero_watch">Watch the trailer</span></button>
+      <a class="btn" href="#films" data-t="hero_more">See what it does</a>
+    </div>
+  </div>
+</header>
+
+<div class="points">
+  <div class="wrap">
+    <ul>
+      <li><span class="n">01</span><h3 data-t="p1_t">Decides for itself</h3><p data-t="p1">No script. Its needs and feelings choose what to do, ten times a second.</p></li>
+      <li><span class="n">02</span><h3 data-t="p2_t">Reacts to people</h3><p data-t="p2">Plays fetch with its owner, stands up to strangers, loves to be petted.</p></li>
+      <li><span class="n">03</span><h3 data-t="p3_t">Explains itself</h3><p data-t="p3">Its mode, its mood and the reason for each move are drawn on screen. Clear at a glance.</p></li>
+      <li><span class="n">04</span><h3 data-t="p4_t">Runs on a laptop</h3><p data-t="p4">Pure simulation: no hardware to break, nothing to fence off. Starts with one command.</p></li>
+    </ul>
+  </div>
+</div>
+
+<section id="films" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow" data-t="films_eyebrow">Films</div>
+      <h2 data-t="films_h">See it in action</h2>
+      <p data-t="films_p">Thirteen short films. Every one is a real simulation run: nothing is animated by hand.</p>
+    </div>
+    <div class="films" id="filmGrid"></div>
+  </div>
+</section>
+
+<section class="try" id="try">
+  <div class="wrap grid">
+    <div>
+      <div class="eyebrow" data-t="try_eyebrow">Interactive</div>
+      <h2 style="font-size:var(--s3);margin-top:12px" data-t="try_h">Take the owner's place</h2>
+      <p style="color:var(--muted);font-size:var(--s1);margin-top:14px;line-height:1.5" data-t="try_p">In live mode you walk around the room yourself, and the dog reacts to you as it would to its owner.</p>
+      <div class="keys">
+        <div class="key"><div class="caps"><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd></div><span data-t="k_walk">walk around the room</span></div>
+        <div class="key"><div class="caps"><kbd>B</kbd></div><span data-t="k_ball">throw the ball</span></div>
+        <div class="key"><div class="caps"><kbd>C</kbd></div><span data-t="k_pet">crouch down and pet it</span></div>
+        <div class="key"><div class="caps"><kbd>P</kbd></div><span data-t="k_palm">hold out a palm</span></div>
+        <div class="key"><div class="caps"><kbd>U</kbd></div><span data-t="k_leave">leave the room and come back</span></div>
+        <div class="key"><div class="caps"><kbd>X</kbd></div><span data-t="k_stranger">let a stranger in</span></div>
+      </div>
+    </div>
+    <figure><img data-m="still_petting.jpg" alt="" loading="lazy"></figure>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow" data-t="how_eyebrow">How it works</div>
+      <h2 data-t="how_h">How it thinks</h2>
+      <p data-t="how_p">Four steps, repeated ten times a second.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><img data-m="still_pov.jpg" alt="" loading="lazy"><span class="k">01</span><h3 data-t="s1_t">Sees</h3><p data-t="s1">A camera in its head and hearing, with blind spots, like a real animal.</p></div>
+      <div class="step"><img data-m="still_door.jpg" alt="" loading="lazy"><span class="k">02</span><h3 data-t="s2_t">Feels</h3><p data-t="s2">Four needs and three emotions rise and fall: energy, company, curiosity, territory.</p></div>
+      <div class="step"><img data-m="still_tactical.jpg" alt="" loading="lazy"><span class="k">03</span><h3 data-t="s3_t">Chooses</h3><p data-t="s3">Every behaviour gets a score. The best one wins, and the reason is written down.</p></div>
+      <div class="step"><img data-m="still_pickup.jpg" alt="" loading="lazy"><span class="k">04</span><h3 data-t="s4_t">Acts</h3><p data-t="s4">A neural network trained in simulation moves the legs; the tail and head show the mood.</p></div>
+    </div>
+    <div class="why"><span class="l" data-t="why_l">Its reasoning, straight from the log</span><span class="line" id="why"><b>chase ball:</b> fetch 0.90 (ball 1.00, energy 0.90) &gt; companion 0.53</span></div>
+  </div>
+</section>
+
+<section class="nums" style="padding-top:0">
+  <div class="wrap">
+    <ul>
+      <li><b>72</b><span data-t="n1">minutes of simulated life across 20 different days, without a single fall</span></li>
+      <li><b>13</b><span data-t="n2">short films, each in English and Russian</span></li>
+      <li><b>7</b><span data-t="n3">behaviours it chooses between on its own</span></li>
+      <li><b>10×</b><span data-t="n4">per second it re-thinks what to do</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="stills" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow" data-t="st_eyebrow">Frames</div>
+      <h2 data-t="st_h">Stills</h2>
+    </div>
+    <div class="stills">
+      <figure class="w"><img data-m="still_frozen.jpg" alt="" loading="lazy"></figure>
+      <figure class="w"><img data-m="still_petting.jpg" alt="" loading="lazy"></figure>
+      <figure><img data-m="still_pickup.jpg" alt="" loading="lazy"></figure>
+      <figure><img data-m="still_sleep.jpg" alt="" loading="lazy"></figure>
+      <figure><img data-m="still_sniff.jpg" alt="" loading="lazy"></figure>
+      <figure class="w"><img data-m="still_tactical.jpg" alt="" loading="lazy"></figure>
+      <figure class="w"><img data-m="still_door.jpg" alt="" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <details class="eng">
+      <summary data-t="eng_t">For engineers</summary>
+      <div class="body">
+        <ul>
+          <li data-t="e1"><b>MuJoCo</b> physics at 500 Hz, the <b>Unitree Go1</b> model, with a neck, tail, mouth, head camera and touch sensors added.</li>
+          <li data-t="e2"><b>Learned legs:</b> walking policies trained with reinforcement learning, run as a small neural network in NumPy.</li>
+          <li data-t="e3"><b>Rule-based brain:</b> needs as differential equations, emotions with habituation, a utility arbiter and a behaviour tree per mode.</li>
+        </ul>
+        <ul>
+          <li data-t="e4"><b>Honest perception:</b> field of view, occlusion, noise and dropouts; the brain never reads the simulator.</li>
+          <li data-t="e5"><b>Deterministic:</b> every scenario replays identically from a seed; logs can be verified byte for byte.</li>
+          <li data-t="e6"><b>Quality:</b> 89 automated tests, strict typing, 13 written design decisions.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><b style="color:var(--text);font-family:var(--display);letter-spacing:0.16em">PET OR THREAT</b></span>
+    <span data-t="foot">Unitree Go1 in MuJoCo · a rule-based mind on learned legs</span>
+  </div>
+</footer>
+
+<dialog id="player" aria-label="Video">
+  <video id="pv" controls playsinline preload="none"></video>
+  <img id="pi" alt="" hidden>
+  <div class="bar"><h4 id="pt"></h4><button class="x" type="button" id="px" data-t="close">Close</button></div>
+</dialog>
+
+<script>
+(() => {
+  const T = {
+    en: {
+      nav_films: "Films", nav_try: "Try it", nav_how: "How it works",
+      hero_eyebrow: "A robot dog with a character",
+      hero_lede: "A Unitree Go1 robot dog in a simulated living room. It decides for itself when to play, when to guard and when to sleep, and shows why, right on screen.",
+      hero_watch: "Watch the trailer", hero_more: "See what it does",
+      p1_t: "Decides for itself", p1: "No script. Its needs and feelings choose what to do, ten times a second.",
+      p2_t: "Reacts to people", p2: "Plays fetch with its owner, stands up to strangers, loves to be petted.",
+      p3_t: "Explains itself", p3: "Its mode, its mood and the reason for each move are drawn on screen. Clear at a glance.",
+      p4_t: "Runs on a laptop", p4: "Pure simulation: no hardware to break, nothing to fence off. Starts with one command.",
+      films_eyebrow: "Films", films_h: "See it in action",
+      films_p: "Thirteen short films. Every one is a real simulation run: nothing is animated by hand.",
+      try_eyebrow: "Interactive", try_h: "Take the owner's place",
+      try_p: "In live mode you walk around the room yourself, and the dog reacts to you as it would to its owner.",
+      k_walk: "walk around the room", k_ball: "throw the ball", k_pet: "crouch down and pet it",
+      k_palm: "hold out a palm", k_leave: "leave the room and come back", k_stranger: "let a stranger in",
+      how_eyebrow: "How it works", how_h: "How it thinks", how_p: "Four steps, repeated ten times a second.",
+      s1_t: "Sees", s1: "A camera in its head and hearing, with blind spots, like a real animal.",
+      s2_t: "Feels", s2: "Four needs and three emotions rise and fall: energy, company, curiosity, territory.",
+      s3_t: "Chooses", s3: "Every behaviour gets a score. The best one wins, and the reason is written down.",
+      s4_t: "Acts", s4: "A neural network trained in simulation moves the legs; the tail and head show the mood.",
+      why_l: "Its reasoning, straight from the log",
+      n1: "minutes of simulated life across 20 different days, without a single fall",
+      n2: "short films, each in English and Russian", n3: "behaviours it chooses between on its own",
+      n4: "per second it re-thinks what to do",
+      st_eyebrow: "Frames", st_h: "Stills",
+      eng_t: "For engineers",
+      e1: "<b>MuJoCo</b> physics at 500 Hz, the <b>Unitree Go1</b> model, with a neck, tail, mouth, head camera and touch sensors added.",
+      e2: "<b>Learned legs:</b> walking policies trained with reinforcement learning, run as a small neural network in NumPy.",
+      e3: "<b>Rule-based brain:</b> needs as differential equations, emotions with habituation, a utility arbiter and a behaviour tree per mode.",
+      e4: "<b>Honest perception:</b> field of view, occlusion, noise and dropouts; the brain never reads the simulator.",
+      e5: "<b>Deterministic:</b> every scenario replays identically from a seed; logs can be verified byte for byte.",
+      e6: "<b>Quality:</b> 89 automated tests, strict typing, 13 written design decisions.",
+      foot: "Unitree Go1 in MuJoCo · a rule-based mind on learned legs", close: "Close", min: "min",
+    },
+    ru: {
+      nav_films: "Фильмы", nav_try: "Попробовать", nav_how: "Как это работает",
+      hero_eyebrow: "Робособака с характером",
+      hero_lede: "Робособака Unitree Go1 в симуляции квартиры. Она сама решает, когда играть, когда охранять, а когда спать, и показывает почему — прямо на экране.",
+      hero_watch: "Смотреть трейлер", hero_more: "Что она умеет",
+      p1_t: "Решает сама", p1: "Никакого сценария. Что делать, выбирают её потребности и чувства — десять раз в секунду.",
+      p2_t: "Реагирует на людей", p2: "Играет с хозяином в мяч, не пускает чужих, любит, когда её гладят.",
+      p3_t: "Объясняет себя", p3: "Режим, настроение и причина каждого действия видны на экране. Понятно с первого взгляда.",
+      p4_t: "Работает на ноутбуке", p4: "Только симуляция: нечего сломать, ничего не нужно ограждать. Запуск одной командой.",
+      films_eyebrow: "Фильмы", films_h: "Посмотрите в деле",
+      films_p: "Тринадцать коротких фильмов. Каждый — настоящий прогон симуляции, ничего не анимировано вручную.",
+      try_eyebrow: "Интерактив", try_h: "Станьте хозяином",
+      try_p: "В живом режиме вы сами ходите по комнате, а собака реагирует на вас, как на своего хозяина.",
+      k_walk: "ходить по комнате", k_ball: "бросить мяч", k_pet: "присесть и погладить",
+      k_palm: "протянуть ладонь", k_leave: "выйти из комнаты и вернуться", k_stranger: "впустить незнакомца",
+      how_eyebrow: "Как это работает", how_h: "Как она думает", how_p: "Четыре шага, десять раз в секунду.",
+      s1_t: "Видит", s1: "Камера в голове и слух — со слепыми зонами, как у живого животного.",
+      s2_t: "Чувствует", s2: "Четыре потребности и три эмоции растут и спадают: энергия, общение, любопытство, территория.",
+      s3_t: "Выбирает", s3: "Каждое поведение получает оценку. Побеждает лучшее, а причина записывается.",
+      s4_t: "Действует", s4: "Ноги ведёт нейросеть, обученная в симуляции; хвост и голова показывают настроение.",
+      why_l: "Её рассуждения — прямо из журнала",
+      n1: "минуты симулированной жизни в 20 разных днях — ни одного падения",
+      n2: "коротких фильмов, каждый на русском и английском", n3: "видов поведения, между которыми она выбирает сама",
+      n4: "в секунду она заново решает, что делать",
+      st_eyebrow: "Кадры", st_h: "Стоп-кадры",
+      eng_t: "Для инженеров",
+      e1: "Физика <b>MuJoCo</b> на 500 Гц, модель <b>Unitree Go1</b> с добавленными шеей, хвостом, пастью, камерой и датчиками касания.",
+      e2: "<b>Обученные ноги:</b> политики ходьбы из обучения с подкреплением, запускаются как небольшая нейросеть на NumPy.",
+      e3: "<b>Мозг на правилах:</b> потребности как дифференциальные уравнения, эмоции с привыканием, арбитр полезности и дерево поведения для каждого режима.",
+      e4: "<b>Честное восприятие:</b> поле зрения, заслонение, шум и пропуски; мозг никогда не читает симулятор напрямую.",
+      e5: "<b>Детерминизм:</b> каждый сценарий воспроизводится одинаково по seed; логи сверяются байт в байт.",
+      e6: "<b>Качество:</b> 89 автотестов, строгая типизация, 13 записанных архитектурных решений.",
+      foot: "Unitree Go1 в MuJoCo · мозг на правилах и обученные ноги", close: "Закрыть", min: "мин",
+    },
+  };
+
+  const FILMS = [
+    { id: "trailer", c: "--pet", big: true, len: "0:56",
+      t: { en: "Trailer", ru: "Трейлер" },
+      d: { en: "Everything it can do, in under a minute.", ru: "Всё, что она умеет, меньше чем за минуту." } },
+    { id: "fetch", c: "#c4e23f", len: "0:37", t: { en: "Fetch", ru: "Апорт" },
+      d: { en: "Chases the ball and brings it back to your feet.", ru: "Бежит за мячом и приносит его к ногам." } },
+    { id: "good_boy", c: "#ffaa5a", len: "0:38", t: { en: "Good dog", ru: "Хорошая собака" },
+      d: { en: "Feels your hand: lies down, rolls over, asks for more.", ru: "Чувствует руку: ложится, переворачивается, просит ещё." } },
+    { id: "guardian", c: "#ff5248", len: "0:36", t: { en: "Night watch", ru: "Ночной сторож" },
+      d: { en: "Stands between a stranger and the spot it guards.", ru: "Встаёт между незнакомцем и местом, которое охраняет." } },
+    { id: "waiting", c: "#6ea0ff", len: "0:45", t: { en: "Waiting", ru: "Ожидание" },
+      d: { en: "Misses its owner at the door, then greets him with joy.", ru: "Скучает у двери, а потом радостно встречает." } },
+    { id: "curious", c: "#46cdf0", len: "0:34", t: { en: "Curiosity", ru: "Любопытство" },
+      d: { en: "Sniffs anything new until it gets bored of it.", ru: "Обнюхивает всё новое, пока не надоест." } },
+    { id: "sweet_dreams", c: "#8c82ff", len: "0:36", t: { en: "Sweet dreams", ru: "Сладких снов" },
+      d: { en: "Tired? It goes to bed on its own.", ru: "Устала — сама идёт спать." } },
+    { id: "reflexes", c: "#ff8c28", len: "0:22", t: { en: "Reflexes", ru: "Рефлексы" },
+      d: { en: "Flinches at a noise, keeps its balance, gets used to it.", ru: "Вздрагивает от звука, держит равновесие, привыкает." } },
+    { id: "feint", c: "#ff5248", len: "0:32", t: { en: "The feint", ru: "Обманный манёвр" },
+      d: { en: "Two intruders at once. It picks the more dangerous one.", ru: "Два нарушителя сразу. Выбирает более опасного." } },
+    { id: "bodyguard", c: "#ff5248", len: "0:31", t: { en: "Bodyguard", ru: "Телохранитель" },
+      d: { en: "Guards its owner wherever he walks.", ru: "Охраняет хозяина, куда бы он ни пошёл." } },
+    { id: "day", c: "#ffaa5a", len: "0:52", t: { en: "A day in 3.5 minutes", ru: "День за 3.5 минуты" },
+      d: { en: "From morning to night, with no script at all.", ru: "С утра до ночи, без всякого сценария." } },
+    { id: "pov", c: "#46cdf0", len: "0:30", t: { en: "Through its eyes", ru: "Её глазами" },
+      d: { en: "What the robot actually sees through its camera.", ru: "Что робот на самом деле видит через свою камеру." } },
+    { id: "mind", c: "#ffdc5a", len: "0:47", t: { en: "How it thinks", ru: "Как она думает" },
+      d: { en: "Sees, feels, chooses, acts: step by step.", ru: "Видит, чувствует, выбирает, действует — по шагам." } },
+    { id: "with_without", c: "#ffdc5a", len: "0:30", t: { en: "Emotions on / off", ru: "С эмоциями и без" },
+      d: { en: "The same scene, with feelings and without.", ru: "Одна и та же сцена — с чувствами и без них." } },
+  ];
+
+  const WHY = [
+    ["chase ball", "fetch 0.90 (ball 1.00, energy 0.90) > companion 0.53"],
+    ["enjoy petting", "companion 0.97 (invite 1.00, calm 1.00) > idle 0.12"],
+    ["hold the line", "sentry 0.83 (territorial 0.88, threat 0.67) > idle 0.12"],
+    ["wait at door", "missing_owner 0.67 (owner_away 1.00, social 0.51) > idle 0.12"],
+    ["sniff", "explore 0.93 (novelty 0.86, curiosity 0.72) > idle 0.12"],
+    ["lie down", "rest 1.03 (calm 1.00, tired 0.88) > idle 0.12"],
+    ["play bow", "fetch 0.98 (ball 1.00, energy 0.77) > companion 0.37"],
+    ["greet", "companion 0.90 (invite 1.00, calm 1.00) > idle 0.12"],
+  ];
+
+  const grid = document.getElementById("filmGrid");
+  const play = '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 0l9 5-9 5z"/></svg>';
+  const LATER = ["reflexes"];  // not rendered yet
+  for (const f of FILMS.filter((x) => !LATER.includes(x.id))) {
+    const el = document.createElement("article");
+    el.className = "film" + (f.big ? " big" : "");
+    el.style.setProperty("--c", f.c.startsWith("--") ? `var(${f.c})` : f.c);
+    const loop = f.id === "trailer" ? "hero_loop.mp4" : `${f.id}_loop.mp4`;
+    el.innerHTML = `
+      <button class="frame" type="button" data-play="${f.id}">
+        <video data-m="${loop}" data-p="${f.id}.jpg" muted loop playsinline preload="none"></video>
+        <span class="play">${play}</span>
+      </button>
+      <div style="display:grid;gap:8px;min-width:0">
+        <span class="tag"><span data-film-t="${f.id}"></span><span class="len">${f.len}</span></span>
+        <h3 data-film-t="${f.id}"></h3>
+        <p data-film-d="${f.id}"></p>
+      </div>`;
+    grid.appendChild(el);
+  }
+  // the tag line shows the length only; the title goes in the heading
+  grid.querySelectorAll(".tag [data-film-t]").forEach((s) => s.remove());
+
+  // languages whose films are already rendered; the others fall back to English footage
+  const FOOTAGE = ["en"];
+  let lang = "en";
+  const media = (file) => `media/${FOOTAGE.includes(lang) ? lang : "en"}/${file}`;
+
+  function apply(next) {
+    lang = next;
+    document.documentElement.lang = lang;
+    const dict = T[lang];
+    document.querySelectorAll("[data-t]").forEach((el) => {
+      const v = dict[el.dataset.t];
+      if (v !== undefined) el.innerHTML = v;
+    });
+    document.querySelectorAll("[data-film-t]").forEach((el) => { el.textContent = FILMS.find((f) => f.id === el.dataset.filmT).t[lang]; });
+    document.querySelectorAll("[data-film-d]").forEach((el) => { el.textContent = FILMS.find((f) => f.id === el.dataset.filmD).d[lang]; });
+    document.querySelectorAll("img[data-m]").forEach((img) => { img.src = media(img.dataset.m); });
+    document.querySelectorAll("video[data-m]").forEach((v) => {
+      const wasPlaying = !v.paused, at = v.currentTime || 0;
+      v.poster = media(v.dataset.p);
+      if (v.dataset.loaded === "1" || v.autoplay) {
+        v.src = media(v.dataset.m);
+        v.addEventListener("loadedmetadata", () => { try { v.currentTime = at; } catch (e) {} if (wasPlaying || v.autoplay) v.play().catch(() => {}); }, { once: true });
+        v.dataset.loaded = "1";
+      }
+    });
+    document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    try { localStorage.setItem("pot-lang", lang); } catch (e) {}
+    if (dlg.open && current) openFilm(current, true);
+  }
+
+  // loops start when they come into view
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const io = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      const v = e.target;
+      if (e.isIntersecting) {
+        if (v.dataset.loaded !== "1") { v.src = media(v.dataset.m); v.dataset.loaded = "1"; }
+        if (!reduce) v.play().catch(() => {});
+      } else v.pause();
+    }
+  }, { rootMargin: "200px 0px", threshold: 0.2 }) : null;
+  document.querySelectorAll(".film video").forEach((v) => io && io.observe(v));
+
+  // player
+  const dlg = document.getElementById("player"), pv = document.getElementById("pv"), pt = document.getElementById("pt"), pi = document.getElementById("pi");
+  let current = null;
+  function openFilm(id, keepTime) {
+    current = id;
+    const f = FILMS.find((x) => x.id === id);
+    const at = keepTime ? pv.currentTime : 0;
+    pi.hidden = true; pv.hidden = false;
+    pv.src = media(`${id}.mp4`);
+    pv.poster = media(`${id}.jpg`);
+    pt.textContent = f ? f.t[lang] : "";
+    if (!dlg.open) dlg.showModal();
+    pv.addEventListener("loadedmetadata", () => { if (at) pv.currentTime = at; }, { once: true });
+    pv.play().catch(() => {});
+  }
+  function openStill(src) {
+    current = null; pv.pause(); pv.hidden = true; pi.hidden = false; pi.src = src; pt.textContent = "";
+    if (!dlg.open) dlg.showModal();
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-play]");
+    if (b) { openFilm(b.dataset.play); return; }
+    const fig = e.target.closest(".stills figure");
+    if (fig) openStill(fig.querySelector("img").src);
+  });
+  const shut = () => { pv.pause(); pv.removeAttribute("src"); pv.load(); current = null; dlg.close(); };
+  document.getElementById("px").addEventListener("click", shut);
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) shut(); });
+  dlg.addEventListener("close", () => pv.pause());
+
+  document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => apply(b.dataset.lang)));
+
+  // reasoning ticker
+  const why = document.getElementById("why");
+  const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  let k = 1;
+  if (!reduce) setInterval(() => {
+    why.style.opacity = "0";
+    setTimeout(() => { const [n, w] = WHY[k++ % WHY.length]; why.innerHTML = `<b>${esc(n)}:</b> ${esc(w)}`; why.style.opacity = "1"; }, 350);
+  }, 3000);
+
+  const nav = document.getElementById("nav");
+  const onScroll = () => nav.classList.toggle("solid", scrollY > 40);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  let start = "en";
+  const hash = location.hash.replace("#", "");
+  let saved = null;
+  try { saved = localStorage.getItem("pot-lang"); } catch (e) {}
+  if (hash === "ru" || hash === "en") start = hash;
+  else if (saved === "ru" || saved === "en") start = saved;
+  else if ((navigator.language || "").toLowerCase().startsWith("ru")) start = "ru";
+  apply(start);
+})();
+</script>
+</body>
+</html>
