@@ -168,17 +168,51 @@ kbd { font-family: var(--mono); font-size: 0.95rem; min-width: 38px; height: 38p
 .stills figure:hover img { transform: scale(1.04); }
 @media (max-width: 760px) { .stills { grid-template-columns: 1fr 1fr; } .stills figure, .stills figure.w { grid-column: span 2; } }
 
-/* engineers */
-details.eng { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
-details.eng summary { cursor: pointer; list-style: none; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-family: var(--display); font-size: var(--s1); letter-spacing: 0.08em; text-transform: uppercase; }
-details.eng summary::-webkit-details-marker { display: none; }
-details.eng summary::after { content: "+"; font-family: var(--mono); color: var(--pet); font-size: 1.4rem; transition: transform 0.2s; }
-details.eng[open] summary::after { transform: rotate(45deg); }
-.eng .body { padding: 0 24px 24px; display: grid; gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (max-width: 760px) { .eng .body { grid-template-columns: 1fr; } }
-.eng ul { margin: 0; padding-left: 18px; color: var(--muted); display: grid; gap: 8px; }
-.eng ul b { color: var(--text); font-weight: 500; }
-
+/* engineering */
+.eng-sec { background: var(--panel); border-top: 1px solid var(--line); }
+.lanes { display: grid; gap: 10px; margin-bottom: clamp(40px, 6vw, 72px); }
+.lane { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 18px; align-items: stretch; }
+.lane .hz { font-family: var(--display); font-size: var(--s2); font-weight: 600; line-height: 1; padding-top: 14px; font-variant-numeric: tabular-nums; }
+.lane .hz small { display: block; font-family: var(--body); font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: 6px; font-weight: 500; }
+.lane .row { display: flex; flex-wrap: wrap; gap: 10px; min-width: 0; }
+.node { flex: 1 1 170px; min-width: 0; background: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.node b { display: block; font-family: var(--display); font-weight: 500; font-size: 1.12rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.node span { display: block; color: var(--muted); font-size: 0.88rem; line-height: 1.45; margin-top: 4px; }
+.lane.mid .node { border-color: rgba(244, 173, 99, 0.45); }
+.flow { font-family: var(--mono); font-size: 0.8rem; color: var(--pet); padding-left: 138px; }
+@media (max-width: 680px) { .lane { grid-template-columns: 1fr; gap: 8px; } .lane .hz { padding-top: 0; } .flow { padding-left: 0; } }
+.sheet { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 56px); margin-bottom: clamp(40px, 6vw, 72px); }
+@media (max-width: 820px) { .sheet { grid-template-columns: 1fr; } }
+.sheet h3 { grid-column: 1 / -1; font-size: var(--s2); margin-bottom: 14px; }
+.spec { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.spec dt { font-family: var(--display); letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.82rem; color: var(--pet); padding-top: 2px; }
+.spec dd { margin: 0; font-size: 0.95rem; color: var(--text); min-width: 0; }
+.spec dd small { display: block; color: var(--muted); font-size: 0.86rem; margin-top: 2px; }
+.mono { font-family: var(--mono); font-size: 0.88em; }
+.charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-bottom: clamp(40px, 6vw, 72px); }
+@media (max-width: 900px) { .charts { grid-template-columns: 1fr; } }
+.card { background: var(--ink); border: 1px solid var(--line); border-radius: 16px; padding: clamp(18px, 2.4vw, 28px); min-width: 0; }
+.card h4 { font-family: var(--display); font-size: 1.15rem; letter-spacing: 0.06em; margin-bottom: 4px; }
+.card .sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 18px; }
+.card svg { width: 100%; height: auto; display: block; }
+.card svg text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.card svg .lbl { fill: var(--text); font-family: var(--body); font-size: 12px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; font-size: 0.84rem; color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.big3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-bottom: clamp(40px, 6vw, 72px); }
+@media (max-width: 900px) { .big3 { grid-template-columns: 1fr; } }
+.big3 .card b { display: block; font-family: var(--display); font-size: var(--s3); line-height: 1; font-weight: 600; font-variant-numeric: tabular-nums; }
+.big3 .card span { color: var(--muted); font-size: 0.93rem; display: block; margin-top: 10px; }
+.practice { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+@media (max-width: 900px) { .practice { grid-template-columns: 1fr; } }
+.practice h4 { font-family: var(--display); font-size: 1.15rem; letter-spacing: 0.06em; margin-bottom: 10px; }
+.practice ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+.practice li { color: var(--muted); font-size: 0.93rem; padding-left: 16px; position: relative; }
+.practice li::before { content: ""; position: absolute; left: 0; top: 0.68em; width: 7px; height: 2px; background: var(--pet); }
+.practice li b { color: var(--text); font-weight: 500; }
+.cmd { margin-top: 22px; background: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; font-family: var(--mono); font-size: 0.86rem; overflow-x: auto; white-space: nowrap; }
+.cmd .c { color: var(--muted); }
+.note { color: var(--muted); font-size: 0.92rem; margin-top: 14px; max-width: 56ch; }
 footer { border-top: 1px solid var(--line); padding-block: 36px calc(36px + env(safe-area-inset-bottom, 0px)); color: var(--muted); font-size: 0.9rem; }
 footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
 
@@ -201,6 +235,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       <a href="#films" data-t="nav_films">Films</a>
       <a href="#try" data-t="nav_try">Try it</a>
       <a href="#how" data-t="nav_how">How it works</a>
+      <a href="#eng" data-t="nav_eng">For engineers</a>
     </div>
     <div class="lang" role="group" aria-label="Language">
       <button type="button" data-lang="en" aria-pressed="true">EN</button>
@@ -258,6 +293,8 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
         <div class="key"><div class="caps"><kbd>U</kbd></div><span data-t="k_leave">leave the room and come back</span></div>
         <div class="key"><div class="caps"><kbd>X</kbd></div><span data-t="k_stranger">let a stranger in</span></div>
       </div>
+      <div class="cmd"><span class="c" data-t="try_cmd_c"># one command opens a 3D window on a laptop</span><br>uv run python -m pot.app</div>
+      <p class="note" data-t="try_where">Live mode runs on a laptop, not in the browser: it is a real-time simulation with a 3D view. It needs Python and MuJoCo.</p>
     </div>
     <figure><img data-m="still_petting.jpg" alt="" loading="lazy"></figure>
   </div>
@@ -309,23 +346,135 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
   </div>
 </section>
 
-<section style="padding-top:0">
+<section class="eng-sec" id="eng">
   <div class="wrap">
-    <details class="eng">
-      <summary data-t="eng_t">For engineers</summary>
-      <div class="body">
+    <div class="head">
+      <div class="eyebrow" data-t="eng_eyebrow">For engineers</div>
+      <h2 data-t="eng_h">Under the hood</h2>
+      <p data-t="eng_p">Physics, perception, decision-making and motion run as three loops at three rates. The brain reads only a perception snapshot and writes only an intent; it never touches the simulator.</p>
+    </div>
+
+    <div class="lanes">
+      <div class="lane">
+        <div class="hz">500 Hz<small data-t="l_world">World</small></div>
+        <div class="row">
+          <div class="node"><b data-t="n_phys">Physics</b><span data-t="n_phys_d">MuJoCo 3.16, Unitree Go1 model; PD torques computed on every step</span></div>
+          <div class="node"><b data-t="n_sens">Senses</b><span data-t="n_sens_d">vision with ray-cast occlusion, hearing, touch on five body zones</span></div>
+          <div class="node"><b data-t="n_people">People</b><span data-t="n_people_d">owner and strangers driven by YAML scripts or the keyboard</span></div>
+        </div>
+      </div>
+      <div class="flow" data-t="f1">Percept ↓</div>
+      <div class="lane mid">
+        <div class="hz">10 Hz<small data-t="l_brain">Brain</small></div>
+        <div class="row">
+          <div class="node"><b data-t="n_needs">Needs</b><span data-t="n_needs_d">energy, social, curiosity, territorial; exact solution of linear ODEs</span></div>
+          <div class="node"><b data-t="n_emo">Emotions</b><span data-t="n_emo_d">arousal, valence, fear, mood; impulses, decay, habituation</span></div>
+          <div class="node"><b data-t="n_arb">Arbiter</b><span data-t="n_arb_d">utility per mode, inertia, min dwell, cooldown, reflex pre-emption</span></div>
+          <div class="node"><b data-t="n_bt">Behaviour trees</b><span data-t="n_bt_d">one py_trees tree per mode; leaves emit an intent</span></div>
+        </div>
+      </div>
+      <div class="flow" data-t="f2">Intent: go to · turn · pose · look · vocalise · grip ↓</div>
+      <div class="lane">
+        <div class="hz">50 Hz<small data-t="l_body">Body</small></div>
+        <div class="row">
+          <div class="node"><b data-t="n_legs">Legs</b><span data-t="n_legs_d">reinforcement-learning walk policy or keyframed pose clips</span></div>
+          <div class="node"><b data-t="n_expr">Expression</b><span data-t="n_expr_d">tail, neck and breathing layered on top, driven by emotion</span></div>
+        </div>
+      </div>
+    </div>
+
+    <dl class="sheet">
+      <h3 data-t="sheet_h">Specification</h3>
+      <div class="spec"><dt data-t="d_sim">Simulator</dt><dd data-t="d_sim_v">MuJoCo 3.16, 2 ms physics step <small>scene and robot assembled in code with MjSpec</small></dd></div>
+      <div class="spec"><dt data-t="d_robot">Robot</dt><dd data-t="d_robot_v">Unitree Go1, 12 leg joints <small>plus neck pan and tilt, tail lift and wag, a mouth and a head camera</small></dd></div>
+      <div class="spec"><dt data-t="d_loco">Locomotion</dt><dd data-t="d_loco_v">pretrained policy, MLP <span class="mono">91 → 128 → 128 → 12</span> <small>inference in NumPy at 50 Hz, joint PD (kp 20, kd 1) in Python</small></dd></div>
+      <div class="spec"><dt data-t="d_vision">Vision</dt><dd data-t="d_vision_v">240° field of view, 12 m range <small>occlusion by ray casting; noise 3 cm + 1 cm per metre; 5% dropouts</small></dd></div>
+      <div class="spec"><dt data-t="d_hear">Hearing</dt><dd data-t="d_hear_v">intensity halves at 4 m <small>footsteps heard within 4 m, located to about 0.35 m</small></dd></div>
+      <div class="spec"><dt data-t="d_touch">Touch</dt><dd data-t="d_touch_v">5 zones: head, back, both sides, belly <small>classified as stroke, pat or push from force and onset</small></dd></div>
+      <div class="spec"><dt data-t="d_modes">Behaviour</dt><dd data-t="d_modes_v">7 modes, 3 reflexes <small>sentry, companion, fetch, rest, explore, missing owner, idle; startle, stagger, get-up</small></dd></div>
+      <div class="spec"><dt data-t="d_geo">Geometry</dt><dd data-t="d_geo_v">threats ranked by time to target <small>interception on the Apollonius circle; distance zones with hysteresis</small></dd></div>
+    </dl>
+
+    <div class="charts">
+      <div class="card">
+        <h4 data-t="c1_h">Walking: commanded vs measured speed</h4>
+        <p class="sub" data-t="c1_s">Mean forward speed over 26 s, five turn rates per command, base Go1 model. Mean error 0.072 m/s (0.080 m/s with the dog body), no falls in 15 runs.</p>
+        <svg viewBox="0 0 420 230" role="img" aria-label="forward speed tracking">
+          <line x1="50" y1="200" x2="400" y2="200" stroke="#3a352d"/>
+          <line x1="50" y1="20" x2="50" y2="200" stroke="#3a352d"/>
+          <g stroke="#2a2620"><line x1="50" y1="140" x2="400" y2="140"/><line x1="50" y1="80" x2="400" y2="80"/><line x1="50" y1="20" x2="400" y2="20"/></g>
+          <text x="42" y="203" text-anchor="end">0</text><text x="42" y="143" text-anchor="end">0.2</text><text x="42" y="83" text-anchor="end">0.4</text><text x="42" y="23" text-anchor="end">0.6</text>
+          <text x="105" y="218" text-anchor="middle">0</text><text x="225" y="218" text-anchor="middle">0.25</text><text x="345" y="218" text-anchor="middle">0.5 m/s</text>
+          <rect x="70" y="200" width="70" height="0" fill="#5d564b"/>
+          <rect x="190" y="125" width="70" height="75" fill="#5d564b"/>
+          <rect x="310" y="50" width="70" height="150" fill="#5d564b"/>
+          <rect x="82" y="173" width="46" height="27" fill="#f4ad63"/>
+          <rect x="202" y="119" width="46" height="81" fill="#f4ad63"/>
+          <rect x="322" y="58" width="46" height="142" fill="#f4ad63"/>
+          <text class="lbl" x="105" y="166" text-anchor="middle">0.09</text>
+          <text class="lbl" x="225" y="112" text-anchor="middle">0.27</text>
+          <text class="lbl" x="345" y="44" text-anchor="middle">0.47</text>
+        </svg>
+        <div class="legend"><span><i style="background:#5d564b"></i><span data-t="lg_cmd">commanded</span></span><span><i style="background:#f4ad63"></i><span data-t="lg_meas">measured (mean)</span></span></div>
+        <p class="note" data-t="c1_n">At zero command the policy treads in place and creeps forward, so standing still is done with a pose.</p>
+      </div>
+      <div class="card">
+        <h4 data-t="c2_h">Emotion model on vs off</h4>
+        <p class="sub" data-t="c2_s">Same scenarios, same seeds; on the right, affect frozen at neutral.</p>
+        <svg viewBox="0 0 420 230" role="img" aria-label="emotion model comparison">
+          <text class="lbl" x="0" y="34" data-t="b1">whines / min</text>
+          <rect x="150" y="20" width="240" height="12" rx="3" fill="#f4ad63"/><text x="395" y="31">7.5</text>
+          <rect x="150" y="36" width="160" height="12" rx="3" fill="#5d564b"/><text x="315" y="47">5.0</text>
+          <text class="lbl" x="0" y="88" data-t="b2">greeting bounces</text>
+          <rect x="150" y="74" width="240" height="12" rx="3" fill="#f4ad63"/><text x="395" y="85">4</text>
+          <rect x="150" y="90" width="120" height="12" rx="3" fill="#5d564b"/><text x="275" y="101">2</text>
+          <text class="lbl" x="0" y="142" data-t="b3">nudges for more</text>
+          <rect x="150" y="128" width="240" height="12" rx="3" fill="#f4ad63"/><text x="395" y="139">2</text>
+          <rect x="150" y="144" width="120" height="12" rx="3" fill="#5d564b"/><text x="275" y="155">1</text>
+          <text class="lbl" x="0" y="196" data-t="b4">startle strength</text>
+          <rect x="150" y="182" width="240" height="12" rx="3" fill="#f4ad63"/><text x="395" y="193">0.78</text>
+          <rect x="150" y="198" width="2" height="12" rx="1" fill="#5d564b"/><text x="158" y="209">0</text>
+        </svg>
+        <div class="legend"><span><i style="background:#f4ad63"></i><span data-t="lg_on">with emotions</span></span><span><i style="background:#5d564b"></i><span data-t="lg_off">affect frozen</span></span></div>
+        <p class="note" data-t="c2_n">Mode choice stays the same; emotions change how the dog acts: intensity, tempo, posture.</p>
+      </div>
+    </div>
+
+    <div class="big3">
+      <div class="card"><b>71.7</b><span data-t="m1">minutes of simulated life: the 3.5-minute day under 20 different seeds, 0 falls, 8 to 10 mode switches per day</span></div>
+      <div class="card"><b>0.94 m</b><span data-t="m2">closest an intruder got to the guarded point in the two-intruder test (0.67 m with emotions off); no intruder reached it in any guarding scenario</span></div>
+      <div class="card"><b>2 / 2</b><span data-t="m3">balls delivered to the owner's feet, 19.1 s per fetch on average</span></div>
+    </div>
+
+    <div class="practice">
+      <div class="card">
+        <h4 data-t="pr1_h">Engineering practice</h4>
         <ul>
-          <li data-t="e1"><b>MuJoCo</b> physics at 500 Hz, the <b>Unitree Go1</b> model, with a neck, tail, mouth, head camera and touch sensors added.</li>
-          <li data-t="e2"><b>Learned legs:</b> walking policies trained with reinforcement learning, run as a small neural network in NumPy.</li>
-          <li data-t="e3"><b>Rule-based brain:</b> needs as differential equations, emotions with habituation, a utility arbiter and a behaviour tree per mode.</li>
-        </ul>
-        <ul>
-          <li data-t="e4"><b>Honest perception:</b> field of view, occlusion, noise and dropouts; the brain never reads the simulator.</li>
-          <li data-t="e5"><b>Deterministic:</b> every scenario replays identically from a seed; logs can be verified byte for byte.</li>
-          <li data-t="e6"><b>Quality:</b> 89 automated tests, strict typing, 13 written design decisions.</li>
+          <li data-t="pr1a"><b>Deterministic:</b> no system clock or global random in the brain; every run replays from its seed and logs are verified byte for byte</li>
+          <li data-t="pr1b"><b>Testable:</b> the same brain runs in a kinematic sandbox that plays a scenario in about a second</li>
+          <li data-t="pr1c"><b>89 tests:</b> pytest with property-based tests (Hypothesis) for the geometry</li>
+          <li data-t="pr1d"><b>Typed:</b> mypy --strict and ruff on every change, in CI</li>
         </ul>
       </div>
-    </details>
+      <div class="card">
+        <h4 data-t="pr2_h">Explainability</h4>
+        <ul>
+          <li data-t="pr2a"><b>Every tick is logged:</b> scores of all modes, the winner and the two factors behind it</li>
+          <li data-t="pr2b"><b>On screen:</b> mode, needs, emotions, guard zones and threat lines are drawn from the brain's own state</li>
+          <li data-t="pr2c"><b>13 design records:</b> each non-obvious decision written down with its alternatives</li>
+          <li data-t="pr2d"><b>About 9,800 lines</b> of Python in the package, 1,200 in tests</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4 data-t="pr3_h">How the films are made</h4>
+        <ul>
+          <li data-t="pr3a"><b>Simulate once:</b> joint positions at 50 Hz and the brain state at 10 Hz are saved as a take</li>
+          <li data-t="pr3b"><b>Film many times:</b> a separate render-only model of the room, camera rigs, slow motion and frozen time by interpolation</li>
+          <li data-t="pr3c"><b>Post-processing:</b> depth of field from the depth buffer, bloom, grade; text in two languages</li>
+          <li data-t="pr3d"><b>Physics untouched:</b> the render model only adds what is drawn, so the logs and metrics stay identical</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -378,6 +527,58 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Deterministic:</b> every scenario replays identically from a seed; logs can be verified byte for byte.",
       e6: "<b>Quality:</b> 89 automated tests, strict typing, 13 written design decisions.",
       foot: "Unitree Go1 in MuJoCo · a rule-based mind on learned legs", close: "Close", min: "min",
+      nav_eng: "For engineers",
+      try_cmd_c: "# one command opens a 3D window on a laptop",
+      try_where: "Live mode runs on a laptop, not in the browser: it is a real-time simulation with a 3D view. It needs Python and MuJoCo.",
+      eng_eyebrow: "For engineers", eng_h: "Under the hood",
+      eng_p: "Physics, perception, decision-making and motion run as three loops at three rates. The brain reads only a perception snapshot and writes only an intent; it never touches the simulator.",
+      l_world: "World", l_brain: "Brain", l_body: "Body",
+      n_phys: "Physics", n_phys_d: "MuJoCo 3.16, Unitree Go1 model; PD torques computed on every step",
+      n_sens: "Senses", n_sens_d: "vision with ray-cast occlusion, hearing, touch on five body zones",
+      n_people: "People", n_people_d: "owner and strangers driven by YAML scripts or the keyboard",
+      f1: "Percept ↓",
+      n_needs: "Needs", n_needs_d: "energy, social, curiosity, territorial; exact solution of linear ODEs",
+      n_emo: "Emotions", n_emo_d: "arousal, valence, fear, mood; impulses, decay, habituation",
+      n_arb: "Arbiter", n_arb_d: "utility per mode, inertia, min dwell, cooldown, reflex pre-emption",
+      n_bt: "Behaviour trees", n_bt_d: "one py_trees tree per mode; leaves emit an intent",
+      f2: "Intent: go to · turn · pose · look · vocalise · grip ↓",
+      n_legs: "Legs", n_legs_d: "reinforcement-learning walk policy or keyframed pose clips",
+      n_expr: "Expression", n_expr_d: "tail, neck and breathing layered on top, driven by emotion",
+      sheet_h: "Specification",
+      d_sim: "Simulator", d_sim_v: "MuJoCo 3.16, 2 ms physics step <small>scene and robot assembled in code with MjSpec</small>",
+      d_robot: "Robot", d_robot_v: "Unitree Go1, 12 leg joints <small>plus neck pan and tilt, tail lift and wag, a mouth and a head camera</small>",
+      d_loco: "Locomotion", d_loco_v: "pretrained policy, MLP <span class=\"mono\">91 → 128 → 128 → 12</span> <small>inference in NumPy at 50 Hz, joint PD (kp 20, kd 1) in Python</small>",
+      d_vision: "Vision", d_vision_v: "240° field of view, 12 m range <small>occlusion by ray casting; noise 3 cm + 1 cm per metre; 5% dropouts</small>",
+      d_hear: "Hearing", d_hear_v: "intensity halves at 4 m <small>footsteps heard within 4 m, located to about 0.35 m</small>",
+      d_touch: "Touch", d_touch_v: "5 zones: head, back, both sides, belly <small>classified as stroke, pat or push from force and onset</small>",
+      d_modes: "Behaviour", d_modes_v: "7 modes, 3 reflexes <small>sentry, companion, fetch, rest, explore, missing owner, idle; startle, stagger, get-up</small>",
+      d_geo: "Geometry", d_geo_v: "threats ranked by time to target <small>interception on the Apollonius circle; distance zones with hysteresis</small>",
+      c1_h: "Walking: commanded vs measured speed",
+      c1_s: "Mean forward speed over 26 s, five turn rates per command, base Go1 model. Mean error 0.072 m/s (0.080 m/s with the dog body), no falls in 15 runs.",
+      lg_cmd: "commanded", lg_meas: "measured (mean)",
+      c1_n: "At zero command the policy treads in place and creeps forward, so standing still is done with a pose.",
+      c2_h: "Emotion model on vs off", c2_s: "Same scenarios, same seeds; on the right, affect frozen at neutral.",
+      b1: "whines / min", b2: "greeting bounces", b3: "nudges for more", b4: "startle strength",
+      lg_on: "with emotions", lg_off: "affect frozen",
+      c2_n: "Mode choice stays the same; emotions change how the dog acts: intensity, tempo, posture.",
+      m1: "minutes of simulated life: the 3.5-minute day under 20 different seeds, 0 falls, 8 to 10 mode switches per day",
+      m2: "closest an intruder got to the guarded point in the two-intruder test (0.67 m with emotions off); no intruder reached it in any guarding scenario",
+      m3: "balls delivered to the owner's feet, 19.1 s per fetch on average",
+      pr1_h: "Engineering practice",
+      pr1a: "<b>Deterministic:</b> no system clock or global random in the brain; every run replays from its seed and logs are verified byte for byte",
+      pr1b: "<b>Testable:</b> the same brain runs in a kinematic sandbox that plays a scenario in about a second",
+      pr1c: "<b>89 tests:</b> pytest with property-based tests (Hypothesis) for the geometry",
+      pr1d: "<b>Typed:</b> mypy --strict and ruff on every change, in CI",
+      pr2_h: "Explainability",
+      pr2a: "<b>Every tick is logged:</b> scores of all modes, the winner and the two factors behind it",
+      pr2b: "<b>On screen:</b> mode, needs, emotions, guard zones and threat lines are drawn from the brain's own state",
+      pr2c: "<b>13 design records:</b> each non-obvious decision written down with its alternatives",
+      pr2d: "<b>About 9,800 lines</b> of Python in the package, 1,200 in tests",
+      pr3_h: "How the films are made",
+      pr3a: "<b>Simulate once:</b> joint positions at 50 Hz and the brain state at 10 Hz are saved as a take",
+      pr3b: "<b>Film many times:</b> a separate render-only model of the room, camera rigs, slow motion and frozen time by interpolation",
+      pr3c: "<b>Post-processing:</b> depth of field from the depth buffer, bloom, grade; text in two languages",
+      pr3d: "<b>Physics untouched:</b> the render model only adds what is drawn, so the logs and metrics stay identical",
     },
     ru: {
       nav_films: "Фильмы", nav_try: "Попробовать", nav_how: "Как это работает",
@@ -412,6 +613,58 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Детерминизм:</b> каждый сценарий воспроизводится одинаково по seed; логи сверяются байт в байт.",
       e6: "<b>Качество:</b> 89 автотестов, строгая типизация, 13 записанных архитектурных решений.",
       foot: "Unitree Go1 в MuJoCo · мозг на правилах и обученные ноги", close: "Закрыть", min: "мин",
+      nav_eng: "Для инженеров",
+      try_cmd_c: "# одна команда открывает 3D-окно на ноутбуке",
+      try_where: "Живой режим работает на ноутбуке, а не в браузере: это симуляция в реальном времени с 3D-видом. Нужны Python и MuJoCo.",
+      eng_eyebrow: "Для инженеров", eng_h: "Как это устроено",
+      eng_p: "Физика, восприятие, принятие решений и движение работают как три контура с разной частотой. Мозг читает только снимок восприятия и выдаёт только намерение; к симулятору он не обращается.",
+      l_world: "Мир", l_brain: "Мозг", l_body: "Тело",
+      n_phys: "Физика", n_phys_d: "MuJoCo 3.16, модель Unitree Go1; PD-моменты на каждом шаге",
+      n_sens: "Органы чувств", n_sens_d: "зрение с заслонением через трассировку лучей, слух, касание по пяти зонам",
+      n_people: "Люди", n_people_d: "хозяин и незнакомцы по YAML-сценариям или с клавиатуры",
+      f1: "Восприятие ↓",
+      n_needs: "Потребности", n_needs_d: "энергия, общение, любопытство, территория; точное решение линейных ОДУ",
+      n_emo: "Эмоции", n_emo_d: "возбуждение, валентность, страх, настроение; импульсы, затухание, привыкание",
+      n_arb: "Арбитр", n_arb_d: "полезность режимов, инерция, минимальное время, перезарядка, приоритет рефлексов",
+      n_bt: "Деревья поведения", n_bt_d: "дерево py_trees на каждый режим; листья выдают намерение",
+      f2: "Намерение: идти · повернуть · поза · смотреть · голос · схватить ↓",
+      n_legs: "Ноги", n_legs_d: "политика ходьбы из обучения с подкреплением или ключевые позы",
+      n_expr: "Выразительность", n_expr_d: "хвост, шея и дыхание поверх движения, по эмоциям",
+      sheet_h: "Характеристики",
+      d_sim: "Симулятор", d_sim_v: "MuJoCo 3.16, шаг физики 2 мс <small>сцена и робот собираются в коде через MjSpec</small>",
+      d_robot: "Робот", d_robot_v: "Unitree Go1, 12 суставов ног <small>плюс поворот и наклон шеи, подъём и виляние хвоста, пасть и камера в голове</small>",
+      d_loco: "Ходьба", d_loco_v: "обученная политика, MLP <span class=\"mono\">91 → 128 → 128 → 12</span> <small>инференс на NumPy с частотой 50 Гц, PD-регулятор суставов (kp 20, kd 1) на Python</small>",
+      d_vision: "Зрение", d_vision_v: "поле зрения 240°, дальность 12 м <small>заслонение трассировкой лучей; шум 3 см + 1 см на метр; 5% пропусков</small>",
+      d_hear: "Слух", d_hear_v: "громкость падает вдвое на расстоянии 4 м <small>шаги слышны в пределах 4 м, точность около 0.35 м</small>",
+      d_touch: "Касание", d_touch_v: "5 зон: голова, спина, бока, живот <small>поглаживание, похлопывание или толчок — по силе и характеру касания</small>",
+      d_modes: "Поведение", d_modes_v: "7 режимов, 3 рефлекса <small>охрана, компаньон, апорт, отдых, исследование, ожидание хозяина, покой; испуг, равновесие, вставание</small>",
+      d_geo: "Геометрия", d_geo_v: "угрозы ранжируются по времени до цели <small>перехват по окружности Аполлония; зоны расстояний с гистерезисом</small>",
+      c1_h: "Ходьба: заданная и измеренная скорость",
+      c1_s: "Средняя скорость вперёд за 26 с, пять скоростей поворота на каждую команду, базовая модель Go1. Средняя ошибка 0.072 м/с (0.080 м/с с телом собаки), ни одного падения в 15 прогонах.",
+      lg_cmd: "задано", lg_meas: "измерено (среднее)",
+      c1_n: "При нулевой команде политика переступает на месте и чуть ползёт вперёд, поэтому стояние сделано позой.",
+      c2_h: "Модель эмоций: включена и выключена", c2_s: "Те же сценарии и seed; справа эмоции зафиксированы на нейтральном уровне.",
+      b1: "скулёж в мин", b2: "прыжки при встрече", b3: "просьбы ещё", b4: "сила испуга",
+      lg_on: "с эмоциями", lg_off: "эмоции выключены",
+      c2_n: "Выбор режима не меняется; эмоции меняют то, как собака действует: силу, темп, позу.",
+      m1: "минуты симулированной жизни: день длиной 3.5 минуты с 20 разными seed, 0 падений, 8–10 смен режима за день",
+      m2: "ближе всего нарушитель подошёл к охраняемой точке в тесте с двумя нарушителями (0.67 м без эмоций); ни в одном сценарии охраны точку не достигли",
+      m3: "мяча принесено к ногам хозяина, в среднем 19.1 с на один апорт",
+      pr1_h: "Инженерная практика",
+      pr1a: "<b>Детерминизм:</b> в мозге нет системного времени и глобального random; каждый прогон воспроизводится по seed, логи сверяются байт в байт",
+      pr1b: "<b>Тестируемость:</b> тот же мозг работает в кинематической песочнице, где сценарий проигрывается примерно за секунду",
+      pr1c: "<b>89 тестов:</b> pytest и тесты свойств (Hypothesis) для геометрии",
+      pr1d: "<b>Типизация:</b> mypy --strict и ruff на каждое изменение, в CI",
+      pr2_h: "Объяснимость",
+      pr2a: "<b>Каждый тик в журнале:</b> оценки всех режимов, победитель и два фактора, которые его определили",
+      pr2b: "<b>На экране:</b> режим, потребности, эмоции, зоны охраны и линии угроз рисуются из состояния самого мозга",
+      pr2c: "<b>13 архитектурных решений</b> записаны вместе с рассмотренными альтернативами",
+      pr2d: "<b>Около 9 800 строк</b> Python в пакете и 1 200 в тестах",
+      pr3_h: "Как сняты фильмы",
+      pr3a: "<b>Симуляция один раз:</b> положения суставов (50 Гц) и состояние мозга (10 Гц) сохраняются в дубль",
+      pr3b: "<b>Съёмка сколько угодно раз:</b> отдельная модель комнаты только для рендера, операторские риги, замедление и остановка времени через интерполяцию",
+      pr3c: "<b>Постобработка:</b> глубина резкости по буферу глубины, свечение, цветокоррекция; текст на двух языках",
+      pr3d: "<b>Физика не затронута:</b> модель для рендера только добавляет то, что видно, поэтому логи и метрики не меняются",
     },
   };
 
