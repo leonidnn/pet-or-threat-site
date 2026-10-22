@@ -83,6 +83,9 @@ section { padding-block: clamp(72px, 10vw, 136px); }
 .hero h1 { font-size: var(--s4); letter-spacing: 0.04em; line-height: 0.95; }
 .hero h1 .p { color: var(--pet); } .hero h1 .o { color: rgba(241,235,225,0.5); font-weight: 400; } .hero h1 .t { color: var(--threat); }
 .hero .lede { font-size: var(--s1); max-width: 46ch; color: rgba(241,235,225,0.9); line-height: 1.5; }
+.hero .by { font-family: var(--display); letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.9rem; color: rgba(241,235,225,0.75); }
+.hero .by a { color: var(--pet); text-decoration: none; border-bottom: 1px solid rgba(244,173,99,0.5); }
+.hero .by a:hover { border-color: var(--pet); }
 .cta { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;
   font-family: var(--display); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.98rem;
@@ -253,6 +256,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
     <div class="eyebrow" data-t="hero_eyebrow">A robot dog with a character</div>
     <h1><span class="p">Pet</span> <span class="o">or</span> <span class="t">Threat</span></h1>
     <p class="lede" data-t="hero_lede">A Unitree Go1 robot dog in a simulated living room. It decides for itself when to play, when to guard and when to sleep, and shows why, right on screen.</p>
+    <p class="by"><span data-t="by">A project by</span> <a href="https://github.com/leonidnn" target="_blank" rel="noopener">LeonidNN</a></p>
     <div class="cta">
       <button class="btn main" type="button" data-play="trailer" data-title-key="f_trailer_t"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 0l9 5-9 5z"/></svg><span data-t="hero_watch">Watch the trailer</span></button>
       <a class="btn" href="#films" data-t="hero_more">See what it does</a>
@@ -531,7 +535,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Deterministic:</b> every scenario replays identically from a seed; logs can be verified byte for byte.",
       e6: "<b>Quality:</b> 89 automated tests, strict typing, 13 written design decisions.",
       foot: "Unitree Go1 in MuJoCo · a rule-based mind on learned legs", close: "Close", min: "min",
-      nav_eng: "For engineers", hz: "Hz", author: "Author:",
+      nav_eng: "For engineers", hz: "Hz", author: "Author:", by: "A project by",
       try_cmd_c: "# one command opens a 3D window on a laptop",
       try_where: "Live mode runs on a laptop, not in the browser: it is a real-time simulation with a 3D view. It needs Python and MuJoCo.",
       eng_eyebrow: "For engineers", eng_h: "Under the hood",
@@ -617,7 +621,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Детерминизм:</b> каждый сценарий воспроизводится одинаково по seed; логи сверяются байт в байт.",
       e6: "<b>Качество:</b> 89 автотестов, строгая типизация, 13 записанных архитектурных решений.",
       foot: "Unitree Go1 в MuJoCo · мозг на правилах и обученные ноги", close: "Закрыть", min: "мин",
-      nav_eng: "Для инженеров", hz: "Гц", author: "Автор:",
+      nav_eng: "Для инженеров", hz: "Гц", author: "Автор:", by: "Автор проекта —",
       try_cmd_c: "# одна команда открывает 3D-окно на ноутбуке",
       try_where: "Живой режим работает на ноутбуке, а не в браузере: это симуляция в реальном времени с 3D-видом. Нужны Python и MuJoCo.",
       eng_eyebrow: "Для инженеров", eng_h: "Как это устроено",
