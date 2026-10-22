@@ -83,9 +83,14 @@ section { padding-block: clamp(72px, 10vw, 136px); }
 .hero h1 { font-size: var(--s4); letter-spacing: 0.04em; line-height: 0.95; }
 .hero h1 .p { color: var(--pet); } .hero h1 .o { color: rgba(241,235,225,0.5); font-weight: 400; } .hero h1 .t { color: var(--threat); }
 .hero .lede { font-size: var(--s1); max-width: 46ch; color: rgba(241,235,225,0.9); line-height: 1.5; }
-.hero .by { font-family: var(--display); letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.9rem; color: rgba(241,235,225,0.75); }
-.hero .by a { color: var(--pet); text-decoration: none; border-bottom: 1px solid rgba(244,173,99,0.5); }
-.hero .by a:hover { border-color: var(--pet); }
+.hero .author { display: inline-flex; align-items: center; gap: 14px; width: fit-content; text-decoration: none; color: var(--text);
+  padding: 8px 18px 8px 8px; border-radius: 999px; background: rgba(15,14,12,0.6); border: 1px solid rgba(244,173,99,0.55);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: border-color 0.2s, transform 0.2s; }
+.hero .author:hover { border-color: var(--pet); transform: translateY(-2px); }
+.hero .author img { width: 48px; height: 48px; border-radius: 50%; background: var(--raise); }
+.hero .author small { display: block; font-family: var(--display); letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.72rem; color: var(--pet); }
+.hero .author b { display: block; font-family: var(--display); font-weight: 600; font-size: 1.5rem; letter-spacing: 0.06em; line-height: 1.1; }
+.hero .author .gh-tag { font-size: 0.85rem; color: var(--muted); margin-left: 6px; }
 .cta { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;
   font-family: var(--display); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.98rem;
@@ -255,8 +260,12 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
   <div class="wrap">
     <div class="eyebrow" data-t="hero_eyebrow">A robot dog with a character</div>
     <h1><span class="p">Pet</span> <span class="o">or</span> <span class="t">Threat</span></h1>
+    <a class="author" href="https://github.com/leonidnn" target="_blank" rel="noopener">
+      <img src="https://github.com/leonidnn.png?size=96" alt="" width="48" height="48">
+      <span><small data-t="by">A project by</small><b>LeonidNN</b></span>
+      <span class="gh-tag">GitHub ↗</span>
+    </a>
     <p class="lede" data-t="hero_lede">A Unitree Go1 robot dog in a simulated living room. It decides for itself when to play, when to guard and when to sleep, and shows why, right on screen.</p>
-    <p class="by"><span data-t="by">A project by</span> <a href="https://github.com/leonidnn" target="_blank" rel="noopener">LeonidNN</a></p>
     <div class="cta">
       <button class="btn main" type="button" data-play="trailer" data-title-key="f_trailer_t"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 0l9 5-9 5z"/></svg><span data-t="hero_watch">Watch the trailer</span></button>
       <a class="btn" href="#films" data-t="hero_more">See what it does</a>
@@ -623,7 +632,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Детерминизм:</b> каждый сценарий воспроизводится одинаково по seed; логи сверяются байт в байт.",
       e6: "<b>Качество:</b> 89 автотестов, строгая типизация, 13 записанных архитектурных решений.",
       foot: "Unitree Go1 в MuJoCo · мозг на правилах и обученные ноги", close: "Закрыть", min: "мин",
-      nav_eng: "Для инженеров", hz: "Гц", author: "Автор:", by: "Автор проекта —", closed: "Код проекта пока закрыт, позже он будет опубликован.", closed_short: "Код пока не опубликован",
+      nav_eng: "Для инженеров", hz: "Гц", author: "Автор:", by: "Автор проекта", closed: "Код проекта пока закрыт, позже он будет опубликован.", closed_short: "Код пока не опубликован",
       try_cmd_c: "# одна команда открывает 3D-окно на ноутбуке",
       try_where: "Живой режим работает на ноутбуке, а не в браузере: это симуляция в реальном времени с 3D-видом. Нужны Python и MuJoCo.",
       eng_eyebrow: "Для инженеров", eng_h: "Как это устроено",
