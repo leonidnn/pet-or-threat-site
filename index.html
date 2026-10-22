@@ -356,7 +356,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
 
     <div class="lanes">
       <div class="lane">
-        <div class="hz">500 Hz<small data-t="l_world">World</small></div>
+        <div class="hz">500 <span data-t="hz">Hz</span><small data-t="l_world">World</small></div>
         <div class="row">
           <div class="node"><b data-t="n_phys">Physics</b><span data-t="n_phys_d">MuJoCo 3.16, Unitree Go1 model; PD torques computed on every step</span></div>
           <div class="node"><b data-t="n_sens">Senses</b><span data-t="n_sens_d">vision with ray-cast occlusion, hearing, touch on five body zones</span></div>
@@ -365,7 +365,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       </div>
       <div class="flow" data-t="f1">Percept ↓</div>
       <div class="lane mid">
-        <div class="hz">10 Hz<small data-t="l_brain">Brain</small></div>
+        <div class="hz">10 <span data-t="hz">Hz</span><small data-t="l_brain">Brain</small></div>
         <div class="row">
           <div class="node"><b data-t="n_needs">Needs</b><span data-t="n_needs_d">energy, social, curiosity, territorial; exact solution of linear ODEs</span></div>
           <div class="node"><b data-t="n_emo">Emotions</b><span data-t="n_emo_d">arousal, valence, fear, mood; impulses, decay, habituation</span></div>
@@ -375,7 +375,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       </div>
       <div class="flow" data-t="f2">Intent: go to · turn · pose · look · vocalise · grip ↓</div>
       <div class="lane">
-        <div class="hz">50 Hz<small data-t="l_body">Body</small></div>
+        <div class="hz">50 <span data-t="hz">Hz</span><small data-t="l_body">Body</small></div>
         <div class="row">
           <div class="node"><b data-t="n_legs">Legs</b><span data-t="n_legs_d">reinforcement-learning walk policy or keyframed pose clips</span></div>
           <div class="node"><b data-t="n_expr">Expression</b><span data-t="n_expr_d">tail, neck and breathing layered on top, driven by emotion</span></div>
@@ -527,7 +527,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Deterministic:</b> every scenario replays identically from a seed; logs can be verified byte for byte.",
       e6: "<b>Quality:</b> 89 automated tests, strict typing, 13 written design decisions.",
       foot: "Unitree Go1 in MuJoCo · a rule-based mind on learned legs", close: "Close", min: "min",
-      nav_eng: "For engineers",
+      nav_eng: "For engineers", hz: "Hz",
       try_cmd_c: "# one command opens a 3D window on a laptop",
       try_where: "Live mode runs on a laptop, not in the browser: it is a real-time simulation with a 3D view. It needs Python and MuJoCo.",
       eng_eyebrow: "For engineers", eng_h: "Under the hood",
@@ -613,7 +613,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Детерминизм:</b> каждый сценарий воспроизводится одинаково по seed; логи сверяются байт в байт.",
       e6: "<b>Качество:</b> 89 автотестов, строгая типизация, 13 записанных архитектурных решений.",
       foot: "Unitree Go1 в MuJoCo · мозг на правилах и обученные ноги", close: "Закрыть", min: "мин",
-      nav_eng: "Для инженеров",
+      nav_eng: "Для инженеров", hz: "Гц",
       try_cmd_c: "# одна команда открывает 3D-окно на ноутбуке",
       try_where: "Живой режим работает на ноутбуке, а не в браузере: это симуляция в реальном времени с 3D-видом. Нужны Python и MuJoCo.",
       eng_eyebrow: "Для инженеров", eng_h: "Как это устроено",
