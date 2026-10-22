@@ -223,6 +223,13 @@ kbd { font-family: var(--mono); font-size: 0.95rem; min-width: 38px; height: 38p
 .cmd { margin-top: 22px; background: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; font-family: var(--mono); font-size: 0.86rem; overflow-x: auto; white-space: nowrap; }
 .cmd .c { color: var(--muted); }
 .note { color: var(--muted); font-size: 0.92rem; margin-top: 14px; max-width: 56ch; }
+.contact { border-top: 1px solid var(--line); text-align: center; }
+.contact .wrap { display: grid; gap: 22px; justify-items: center; }
+.contact h2 { font-size: var(--s4); line-height: 1; }
+.contact .mail { font-family: var(--display); font-size: clamp(1.6rem, 1.1rem + 2.8vw, 3.4rem); color: var(--pet); text-decoration: none;
+  border-bottom: 2px solid rgba(244,173,99,0.4); overflow-wrap: anywhere; letter-spacing: 0.02em; }
+.contact .mail:hover { border-color: var(--pet); }
+.contact .ct-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 footer { border-top: 1px solid var(--line); padding-block: 36px calc(36px + env(safe-area-inset-bottom, 0px)); color: var(--muted); font-size: 0.9rem; }
 footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
 
@@ -246,6 +253,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       <a href="#try" data-t="nav_try">Try it</a>
       <a href="#how" data-t="nav_how">How it works</a>
       <a href="#eng" data-t="nav_eng">For engineers</a>
+      <a href="#contact" data-t="nav_ct">Contact</a>
     </div>
     <a class="gh" href="https://github.com/leonidnn" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
     <div class="lang" role="group" aria-label="Language">
@@ -495,6 +503,18 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
   </div>
 </section>
 
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="eyebrow" data-t="ct_eyebrow">Contact</div>
+    <h2 data-t="ct_h">Get in touch with the author</h2>
+    <a class="mail" href="mailto:nekrylov.ln@phystech.edu">nekrylov.ln@phystech.edu</a>
+    <div class="ct-row">
+      <button type="button" class="btn main" id="copyMail" data-t="ct_copy">Copy email</button>
+      <a class="btn" href="https://github.com/leonidnn" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <span><b style="color:var(--text);font-family:var(--display);letter-spacing:0.16em">PET OR THREAT</b></span>
@@ -546,7 +566,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Deterministic:</b> every scenario replays identically from a seed; logs can be verified byte for byte.",
       e6: "<b>Quality:</b> 89 automated tests, strict typing, 13 written design decisions.",
       foot: "Unitree Go1 in MuJoCo · a rule-based mind on learned legs", close: "Close", min: "min",
-      nav_eng: "For engineers", hz: "Hz", author: "Author:", by: "A project by", closed: "The source code is not open yet; it will be published later.", closed_short: "Source code: not public yet",
+      nav_eng: "For engineers", hz: "Hz", author: "Author:", by: "A project by", nav_ct: "Contact", ct_eyebrow: "Contact", ct_h: "Get in touch with the author", ct_copy: "Copy email", ct_copied: "Copied", closed: "The source code is not open yet; it will be published later.", closed_short: "Source code: not public yet",
       try_cmd_c: "# one command opens a 3D window on a laptop",
       try_where: "Live mode runs on a laptop, not in the browser: it is a real-time simulation with a 3D view. It needs Python and MuJoCo.",
       eng_eyebrow: "For engineers", eng_h: "Under the hood",
@@ -632,7 +652,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Детерминизм:</b> каждый сценарий воспроизводится одинаково по seed; логи сверяются байт в байт.",
       e6: "<b>Качество:</b> 89 автотестов, строгая типизация, 13 записанных архитектурных решений.",
       foot: "Unitree Go1 в MuJoCo · мозг на правилах и обученные ноги", close: "Закрыть", min: "мин",
-      nav_eng: "Для инженеров", hz: "Гц", author: "Автор:", by: "Автор проекта", closed: "Код проекта пока закрыт, позже он будет опубликован.", closed_short: "Код пока не опубликован",
+      nav_eng: "Для инженеров", hz: "Гц", author: "Автор:", by: "Автор проекта", nav_ct: "Контакты", ct_eyebrow: "Контакты", ct_h: "Связаться с автором", ct_copy: "Скопировать почту", ct_copied: "Скопировано", closed: "Код проекта пока закрыт, позже он будет опубликован.", closed_short: "Код пока не опубликован",
       try_cmd_c: "# одна команда открывает 3D-окно на ноутбуке",
       try_where: "Живой режим работает на ноутбуке, а не в браузере: это симуляция в реальном времени с 3D-видом. Нужны Python и MuJoCo.",
       eng_eyebrow: "Для инженеров", eng_h: "Как это устроено",
@@ -836,6 +856,12 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
     why.style.opacity = "0";
     setTimeout(() => { const [n, w] = WHY[k++ % WHY.length]; why.innerHTML = `<b>${esc(n)}:</b> ${esc(w)}`; why.style.opacity = "1"; }, 350);
   }, 3000);
+
+  const copyMail = document.getElementById("copyMail");
+  copyMail.addEventListener("click", () => {
+    const done = () => { copyMail.textContent = T[lang].ct_copied; setTimeout(() => (copyMail.textContent = T[lang].ct_copy), 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText("nekrylov.ln@phystech.edu").then(done).catch(() => {});
+  });
 
   const nav = document.getElementById("nav");
   const onScroll = () => nav.classList.toggle("solid", scrollY > 40);
