@@ -178,6 +178,35 @@ kbd { font-family: var(--mono); font-size: 0.95rem; min-width: 38px; height: 38p
 .stills figure:hover img { transform: scale(1.04); }
 @media (max-width: 760px) { .stills { grid-template-columns: 1fr 1fr; } .stills figure, .stills figure.w { grid-column: span 2; } }
 
+/* findings */
+.find { border-top: 1px solid var(--line); }
+.q { font-family: var(--display); font-weight: 500; font-size: var(--s3); line-height: 1.1; max-width: 22ch; text-wrap: balance; margin: 0 0 clamp(36px, 5vw, 60px); }
+.q em { font-style: normal; color: var(--pet); }
+.hyps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-bottom: clamp(48px, 6vw, 80px); }
+@media (max-width: 860px) { .hyps { grid-template-columns: 1fr; } }
+.hyp { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: clamp(20px, 2.6vw, 30px); display: grid; gap: 14px; align-content: start; }
+.hyp .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.hyp .h { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+.status { font-family: var(--display); letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.78rem; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.status.ok { background: rgba(120, 210, 140, 0.15); color: #8fe0a2; border: 1px solid rgba(120, 210, 140, 0.4); }
+.status.part { background: rgba(244, 173, 99, 0.15); color: var(--pet); border: 1px solid rgba(244, 173, 99, 0.45); }
+.status.todo { background: rgba(168, 159, 146, 0.12); color: var(--muted); border: 1px solid var(--line); }
+.hyp h3 { font-size: var(--s1); letter-spacing: 0.03em; text-transform: none; font-weight: 500; line-height: 1.3; }
+.hyp .num { font-family: var(--display); font-size: var(--s3); font-weight: 600; line-height: 1; color: var(--text); }
+.hyp .num small { font-size: 0.4em; color: var(--muted); font-weight: 400; letter-spacing: 0.04em; margin-left: 8px; }
+.hyp p { color: var(--muted); font-size: 0.95rem; }
+.hyp .see { justify-self: start; background: none; border: 0; padding: 0; color: var(--pet); cursor: pointer; font-family: var(--display); letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.88rem; }
+.hyp .see:hover { text-decoration: underline; }
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+@media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+.cols h3 { font-size: var(--s2); margin-bottom: 14px; }
+.cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.cols li { color: var(--muted); font-size: 0.95rem; padding-left: 18px; position: relative; }
+.cols li::before { content: ""; position: absolute; left: 0; top: 0.68em; width: 8px; height: 2px; background: var(--pet); }
+.cols li b { color: var(--text); font-weight: 500; }
+.verdict { margin-top: clamp(40px, 5vw, 64px); padding: clamp(22px, 3vw, 36px); border-radius: 16px; border: 1px solid rgba(244,173,99,0.45); background: linear-gradient(135deg, rgba(244,173,99,0.08), rgba(255,93,80,0.05)); }
+.verdict .eyebrow { margin-bottom: 10px; }
+.verdict p { font-size: var(--s1); line-height: 1.5; max-width: 70ch; }
 /* engineering */
 .eng-sec { background: var(--panel); border-top: 1px solid var(--line); }
 .lanes { display: grid; gap: 10px; margin-bottom: clamp(40px, 6vw, 72px); }
@@ -252,6 +281,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       <a href="#films" data-t="nav_films">Films</a>
       <a href="#try" data-t="nav_try">Try it</a>
       <a href="#how" data-t="nav_how">How it works</a>
+      <a href="#findings" data-t="nav_fd">Findings</a>
       <a href="#eng" data-t="nav_eng">For engineers</a>
       <a href="#contact" data-t="nav_ct">Contact</a>
     </div>
@@ -367,6 +397,87 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       <figure><img data-m="still_sniff.jpg" alt="" loading="lazy"></figure>
       <figure class="w"><img data-m="still_tactical.jpg" alt="" loading="lazy"></figure>
       <figure class="w"><img data-m="still_door.jpg" alt="" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<section class="find" id="findings">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow" data-t="fd_eyebrow">The question</div>
+      <h2 data-t="fd_h">Does it work?</h2>
+    </div>
+    <p class="q" data-t="fd_q">Can a robot with a believable character be built from <em>off-the-shelf trained legs</em> and an <em>explainable rule-based mind</em>, without training any behaviour?</p>
+
+    <div class="hyps">
+      <div class="hyp">
+        <div class="top"><span class="h">H1</span><span class="status ok" data-t="st_ok">confirmed</span></div>
+        <h3 data-t="h1">The dog's body can be extended without retraining the walking policy</h3>
+        <div class="num">0.080 <small data-t="h1_u">m/s mean speed error</small></div>
+        <p data-t="h1_p">0.072 m/s on the original Go1 model, 0.080 m/s with neck, tail, mouth and head camera added. No falls while walking in 15 runs.</p>
+        <button class="see" type="button" data-play="fetch" data-t="see">Watch ›</button>
+      </div>
+      <div class="hyp">
+        <div class="top"><span class="h">H2</span><span class="status ok" data-t="st_ok">confirmed</span></div>
+        <h3 data-t="h2">Behaviour without a script stays stable over long runs</h3>
+        <div class="num">72 <small data-t="h2_u">min, 0 falls</small></div>
+        <p data-t="h2_p">A 3.5-minute day under 20 different seeds: 7 behaviours, 8 to 10 switches between them per day, nothing scripted.</p>
+        <button class="see" type="button" data-play="day" data-t="see">Watch ›</button>
+      </div>
+      <div class="hyp">
+        <div class="top"><span class="h">H3</span><span class="status part" data-t="st_part">confirmed in our scenarios</span></div>
+        <h3 data-t="h3">Guarding by time to target keeps intruders away from the protected point</h3>
+        <div class="num">0 / 3 <small data-t="h3_u">scenarios where the point was reached</small></div>
+        <p data-t="h3_p">Closest approach 0.94 m in the two-intruder test. Not yet compared against simpler guarding strategies.</p>
+        <button class="see" type="button" data-play="feint" data-t="see">Watch ›</button>
+      </div>
+      <div class="hyp">
+        <div class="top"><span class="h">H4</span><span class="status ok" data-t="st_ok">confirmed</span></div>
+        <h3 data-t="h4">Emotions change how the dog acts, not what it decides</h3>
+        <div class="num">4 vs 2 <small data-t="h4_u">bounces at the greeting</small></div>
+        <p data-t="h4_p">Same seeds, emotions on and off: the same behaviours are chosen, but whining goes 7.5 vs 5.0 per minute and the startle 0.78 vs none.</p>
+        <button class="see" type="button" data-play="with_without" data-t="see">Watch ›</button>
+      </div>
+      <div class="hyp">
+        <div class="top"><span class="h">H5</span><span class="status todo" data-t="st_todo">not tested yet</span></div>
+        <h3 data-t="h5">People read the dog as alive and understand what it does</h3>
+        <div class="num">— <small data-t="h5_u">needs a viewer study</small></div>
+        <p data-t="h5_p">The films with and without emotions are ready for a survey with a standard questionnaire; the study itself has not been run.</p>
+      </div>
+    </div>
+
+    <div class="cols">
+      <div>
+        <h3 data-t="c_new">What turned out to work</h3>
+        <ul>
+          <li data-t="cn1"><b>Isolated mind:</b> the brain sees only a perception snapshot, so the same code runs in physics and in a one-second sandbox for tests</li>
+          <li data-t="cn2"><b>Reproducible:</b> every run replays from its seed and logs match byte for byte</li>
+          <li data-t="cn3"><b>Explainable:</b> each decision is logged with its reasons and drawn on screen</li>
+          <li data-t="cn4"><b>Guarding geometry:</b> threats ranked by time to target, positioning on the intruder–target line</li>
+        </ul>
+      </div>
+      <div>
+        <h3 data-t="c_lim">Limits</h3>
+        <ul>
+          <li data-t="cl1">Simulation only; no transfer to a real robot was attempted</li>
+          <li data-t="cl2">People follow scripts or the keyboard and touch the dog only with their hands</li>
+          <li data-t="cl3">The walking policy only goes forward and turns, up to 0.5 m/s</li>
+          <li data-t="cl4">Perception is a sensor model over simulator truth, not a learned detector</li>
+        </ul>
+      </div>
+      <div>
+        <h3 data-t="c_next">Next steps</h3>
+        <ul>
+          <li data-t="cx1">Compare guarding with simpler strategies over many seeds</li>
+          <li data-t="cx2">A viewer study: does the dog with emotions look more alive?</li>
+          <li data-t="cx3">Port to Unitree Go2 and try on real hardware</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="verdict">
+      <div class="eyebrow" data-t="vd_eyebrow">Conclusion</div>
+      <p data-t="vd">Yes, within a simulation. Trained legs plus a rule-based mind give a dog that guards, plays, rests and misses its owner on its own, runs for over an hour without a fall, and can explain every move. What is still open is how people perceive it and how it would behave on a real robot.</p>
     </div>
   </div>
 </section>
@@ -566,6 +677,32 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Deterministic:</b> every scenario replays identically from a seed; logs can be verified byte for byte.",
       e6: "<b>Quality:</b> 89 automated tests, strict typing, 13 written design decisions.",
       foot: "Unitree Go1 in MuJoCo · a rule-based mind on learned legs", close: "Close", min: "min",
+      nav_fd: "Findings", fd_eyebrow: "The question", fd_h: "Does it work?",
+      fd_q: "Can a robot with a believable character be built from <em>off-the-shelf trained legs</em> and an <em>explainable rule-based mind</em>, without training any behaviour?",
+      st_ok: "confirmed", st_part: "confirmed in our scenarios", st_todo: "not tested yet", see: "Watch ›",
+      h1: "The dog's body can be extended without retraining the walking policy", h1_u: "m/s mean speed error",
+      h1_p: "0.072 m/s on the original Go1 model, 0.080 m/s with neck, tail, mouth and head camera added. No falls while walking in 15 runs.",
+      h2: "Behaviour without a script stays stable over long runs", h2_u: "min, 0 falls",
+      h2_p: "A 3.5-minute day under 20 different seeds: 7 behaviours, 8 to 10 switches between them per day, nothing scripted.",
+      h3: "Guarding by time to target keeps intruders away from the protected point", h3_u: "scenarios where the point was reached",
+      h3_p: "Closest approach 0.94 m in the two-intruder test. Not yet compared against simpler guarding strategies.",
+      h4: "Emotions change how the dog acts, not what it decides", h4_u: "bounces at the greeting",
+      h4_p: "Same seeds, emotions on and off: the same behaviours are chosen, but whining goes 7.5 vs 5.0 per minute and the startle 0.78 vs none.",
+      h5: "People read the dog as alive and understand what it does", h5_u: "needs a viewer study",
+      h5_p: "The films with and without emotions are ready for a survey with a standard questionnaire; the study itself has not been run.",
+      c_new: "What turned out to work",
+      cn1: "<b>Isolated mind:</b> the brain sees only a perception snapshot, so the same code runs in physics and in a one-second sandbox for tests",
+      cn2: "<b>Reproducible:</b> every run replays from its seed and logs match byte for byte",
+      cn3: "<b>Explainable:</b> each decision is logged with its reasons and drawn on screen",
+      cn4: "<b>Guarding geometry:</b> threats ranked by time to target, positioning on the intruder–target line",
+      c_lim: "Limits", cl1: "Simulation only; no transfer to a real robot was attempted",
+      cl2: "People follow scripts or the keyboard and touch the dog only with their hands",
+      cl3: "The walking policy only goes forward and turns, up to 0.5 m/s",
+      cl4: "Perception is a sensor model over simulator truth, not a learned detector",
+      c_next: "Next steps", cx1: "Compare guarding with simpler strategies over many seeds",
+      cx2: "A viewer study: does the dog with emotions look more alive?", cx3: "Port to Unitree Go2 and try on real hardware",
+      vd_eyebrow: "Conclusion",
+      vd: "Yes, within a simulation. Trained legs plus a rule-based mind give a dog that guards, plays, rests and misses its owner on its own, runs for over an hour without a fall, and can explain every move. What is still open is how people perceive it and how it would behave on a real robot.",
       nav_eng: "For engineers", hz: "Hz", author: "Author:", by: "A project by", nav_ct: "Contact", ct_eyebrow: "Contact", ct_h: "Get in touch with the author", ct_copy: "Copy email", ct_copied: "Copied", closed: "The source code is not open yet; it will be published later.", closed_short: "Source code: not public yet",
       try_cmd_c: "# one command opens a 3D window on a laptop",
       try_where: "Live mode runs on a laptop, not in the browser: it is a real-time simulation with a 3D view. It needs Python and MuJoCo.",
@@ -652,6 +789,32 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Детерминизм:</b> каждый сценарий воспроизводится одинаково по seed; логи сверяются байт в байт.",
       e6: "<b>Качество:</b> 89 автотестов, строгая типизация, 13 записанных архитектурных решений.",
       foot: "Unitree Go1 в MuJoCo · мозг на правилах и обученные ноги", close: "Закрыть", min: "мин",
+      nav_fd: "Выводы", fd_eyebrow: "Вопрос", fd_h: "Работает ли это?",
+      fd_q: "Можно ли собрать робота с правдоподобным характером из <em>готовых обученных ног</em> и <em>объяснимого мозга на правилах</em>, не обучая поведение?",
+      st_ok: "подтверждено", st_part: "подтверждено в наших сценариях", st_todo: "пока не проверено", see: "Смотреть ›",
+      h1: "Тело собаки можно расширить, не переобучая ходьбу", h1_u: "м/с средняя ошибка скорости",
+      h1_p: "0.072 м/с на исходной модели Go1 и 0.080 м/с с добавленными шеей, хвостом, пастью и камерой. Ни одного падения при ходьбе в 15 прогонах.",
+      h2: "Поведение без сценария остаётся устойчивым на долгих прогонах", h2_u: "мин, 0 падений",
+      h2_p: "День длиной 3.5 минуты с 20 разными seed: 7 видов поведения, 8–10 переключений за день, ничего не прописано заранее.",
+      h3: "Охрана по времени до цели не подпускает нарушителей к охраняемой точке", h3_u: "сценариев, где точку достигли",
+      h3_p: "Ближе всего нарушитель подошёл на 0.94 м в тесте с двумя нарушителями. С более простыми стратегиями охраны пока не сравнивали.",
+      h4: "Эмоции меняют то, как собака действует, а не то, что она решает", h4_u: "прыжка при встрече",
+      h4_p: "Те же seed с эмоциями и без: поведение выбирается то же, но скулёж 7.5 против 5.0 в минуту, а испуг 0.78 против нуля.",
+      h5: "Люди воспринимают собаку как живую и понимают, что она делает", h5_u: "нужен опрос зрителей",
+      h5_p: "Ролики с эмоциями и без готовы для опроса по стандартной анкете, сам опрос ещё не проводился.",
+      c_new: "Что получилось",
+      cn1: "<b>Изолированный мозг:</b> он видит только снимок восприятия, поэтому тот же код работает и в физике, и в песочнице, где сценарий проигрывается за секунду",
+      cn2: "<b>Воспроизводимость:</b> любой прогон повторяется по seed, логи совпадают байт в байт",
+      cn3: "<b>Объяснимость:</b> каждое решение записывается с причинами и показывается на экране",
+      cn4: "<b>Геометрия охраны:</b> угрозы ранжируются по времени до цели, собака встаёт на линию «нарушитель — цель»",
+      c_lim: "Ограничения", cl1: "Только симуляция, перенос на реального робота не делался",
+      cl2: "Люди движутся по сценарию или с клавиатуры и касаются собаки только руками",
+      cl3: "Политика ходьбы умеет только вперёд и повороты, до 0.5 м/с",
+      cl4: "Восприятие — модель датчиков поверх данных симулятора, а не обученный детектор",
+      c_next: "Что дальше", cx1: "Сравнить охрану с более простыми стратегиями на многих seed",
+      cx2: "Опрос зрителей: кажется ли собака с эмоциями более живой?", cx3: "Перенос на Unitree Go2 и проверка на реальном роботе",
+      vd_eyebrow: "Вывод",
+      vd: "Да, в симуляции. Обученные ноги и мозг на правилах дают собаку, которая сама охраняет, играет, отдыхает и скучает по хозяину, больше часа работает без падений и может объяснить каждое своё действие. Открытыми остаются вопросы, как её воспринимают люди и как она поведёт себя на настоящем роботе.",
       nav_eng: "Для инженеров", hz: "Гц", author: "Автор:", by: "Автор проекта", nav_ct: "Контакты", ct_eyebrow: "Контакты", ct_h: "Связаться с автором", ct_copy: "Скопировать почту", ct_copied: "Скопировано", closed: "Код проекта пока закрыт, позже он будет опубликован.", closed_short: "Код пока не опубликован",
       try_cmd_c: "# одна команда открывает 3D-окно на ноутбуке",
       try_where: "Живой режим работает на ноутбуке, а не в браузере: это симуляция в реальном времени с 3D-видом. Нужны Python и MuJoCo.",
