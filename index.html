@@ -669,9 +669,9 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
   };
 
   const FILMS = [
-    { id: "trailer", c: "--pet", big: true, len: "0:56",
+    { id: "trailer", c: "--pet", big: true, len: "0:59",
       t: { en: "Trailer", ru: "Трейлер" },
-      d: { en: "Everything it can do, in under a minute.", ru: "Всё, что она умеет, меньше чем за минуту." } },
+      d: { en: "Everything it can do, in a minute.", ru: "Всё, что она умеет, за минуту." } },
     { id: "fetch", c: "#c4e23f", len: "0:37", t: { en: "Fetch", ru: "Апорт" },
       d: { en: "Chases the ball and brings it back to your feet.", ru: "Бежит за мячом и приносит его к ногам." } },
     { id: "good_boy", c: "#ffaa5a", len: "0:38", t: { en: "Good dog", ru: "Хорошая собака" },
@@ -684,7 +684,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       d: { en: "Sniffs anything new until it gets bored of it.", ru: "Обнюхивает всё новое, пока не надоест." } },
     { id: "sweet_dreams", c: "#8c82ff", len: "0:36", t: { en: "Sweet dreams", ru: "Сладких снов" },
       d: { en: "Tired? It goes to bed on its own.", ru: "Устала — сама идёт спать." } },
-    { id: "reflexes", c: "#ff8c28", len: "0:22", t: { en: "Reflexes", ru: "Рефлексы" },
+    { id: "reflexes", c: "#ff8c28", len: "0:23", t: { en: "Reflexes", ru: "Рефлексы" },
       d: { en: "Flinches at a noise, keeps its balance, gets used to it.", ru: "Вздрагивает от звука, держит равновесие, привыкает." } },
     { id: "feint", c: "#ff5248", len: "0:32", t: { en: "The feint", ru: "Обманный манёвр" },
       d: { en: "Two intruders at once. It picks the more dangerous one.", ru: "Два нарушителя сразу. Выбирает более опасного." } },
@@ -696,7 +696,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       d: { en: "What the robot actually sees through its camera.", ru: "Что робот на самом деле видит через свою камеру." } },
     { id: "mind", c: "#ffdc5a", len: "0:47", t: { en: "How it thinks", ru: "Как она думает" },
       d: { en: "Sees, feels, chooses, acts: step by step.", ru: "Видит, чувствует, выбирает, действует — по шагам." } },
-    { id: "with_without", c: "#ffdc5a", len: "0:30", t: { en: "Emotions on / off", ru: "С эмоциями и без" },
+    { id: "with_without", c: "#ffdc5a", len: "0:26", t: { en: "Emotions on / off", ru: "С эмоциями и без" },
       d: { en: "The same scene, with feelings and without.", ru: "Одна и та же сцена — с чувствами и без них." } },
   ];
 
@@ -713,7 +713,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
 
   const grid = document.getElementById("filmGrid");
   const play = '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 0l9 5-9 5z"/></svg>';
-  const LATER = ["reflexes"];  // not rendered yet
+  const LATER = [];  // films not rendered yet
   for (const f of FILMS.filter((x) => !LATER.includes(x.id))) {
     const el = document.createElement("article");
     el.className = "film" + (f.big ? " big" : "");
@@ -735,7 +735,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
   grid.querySelectorAll(".tag [data-film-t]").forEach((s) => s.remove());
 
   // languages whose films are already rendered; the others fall back to English footage
-  const FOOTAGE = ["en"];
+  const FOOTAGE = ["en", "ru"];
   let lang = "en";
   const media = (file) => `media/${FOOTAGE.includes(lang) ? lang : "en"}/${file}`;
 
