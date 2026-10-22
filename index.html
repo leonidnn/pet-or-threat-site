@@ -66,6 +66,8 @@ section { padding-block: clamp(72px, 10vw, 136px); }
 .links { display: flex; gap: 22px; margin-left: auto; }
 .links a { text-decoration: none; color: var(--muted); font-size: 0.92rem; transition: color 0.2s; white-space: nowrap; }
 .links a:hover { color: var(--text); }
+.gh { color: var(--muted); text-decoration: none; font-size: 0.92rem; white-space: nowrap; }
+.gh:hover { color: var(--text); }
 .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: rgba(0,0,0,0.3); }
 .lang button { border: 0; background: transparent; color: var(--muted); font-family: var(--display); letter-spacing: 0.12em; font-size: 0.86rem; padding: 6px 12px; border-radius: 999px; cursor: pointer; }
 .lang button[aria-pressed="true"] { background: var(--pet); color: #1a1108; }
@@ -237,6 +239,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       <a href="#how" data-t="nav_how">How it works</a>
       <a href="#eng" data-t="nav_eng">For engineers</a>
     </div>
+    <a class="gh" href="https://github.com/leonidnn" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
     <div class="lang" role="group" aria-label="Language">
       <button type="button" data-lang="en" aria-pressed="true">EN</button>
       <button type="button" data-lang="ru" aria-pressed="false">RU</button>
@@ -482,6 +485,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
   <div class="wrap">
     <span><b style="color:var(--text);font-family:var(--display);letter-spacing:0.16em">PET OR THREAT</b></span>
     <span data-t="foot">Unitree Go1 in MuJoCo · a rule-based mind on learned legs</span>
+    <span><span data-t="author">Author:</span> LeonidNN · <a href="https://github.com/leonidnn" target="_blank" rel="noopener">github.com/leonidnn</a></span>
   </div>
 </footer>
 
@@ -527,7 +531,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Deterministic:</b> every scenario replays identically from a seed; logs can be verified byte for byte.",
       e6: "<b>Quality:</b> 89 automated tests, strict typing, 13 written design decisions.",
       foot: "Unitree Go1 in MuJoCo · a rule-based mind on learned legs", close: "Close", min: "min",
-      nav_eng: "For engineers", hz: "Hz",
+      nav_eng: "For engineers", hz: "Hz", author: "Author:",
       try_cmd_c: "# one command opens a 3D window on a laptop",
       try_where: "Live mode runs on a laptop, not in the browser: it is a real-time simulation with a 3D view. It needs Python and MuJoCo.",
       eng_eyebrow: "For engineers", eng_h: "Under the hood",
@@ -613,7 +617,7 @@ dialog .x { border: 1px solid var(--line); background: var(--raise); color: var(
       e5: "<b>Детерминизм:</b> каждый сценарий воспроизводится одинаково по seed; логи сверяются байт в байт.",
       e6: "<b>Качество:</b> 89 автотестов, строгая типизация, 13 записанных архитектурных решений.",
       foot: "Unitree Go1 в MuJoCo · мозг на правилах и обученные ноги", close: "Закрыть", min: "мин",
-      nav_eng: "Для инженеров", hz: "Гц",
+      nav_eng: "Для инженеров", hz: "Гц", author: "Автор:",
       try_cmd_c: "# одна команда открывает 3D-окно на ноутбуке",
       try_where: "Живой режим работает на ноутбуке, а не в браузере: это симуляция в реальном времени с 3D-видом. Нужны Python и MuJoCo.",
       eng_eyebrow: "Для инженеров", eng_h: "Как это устроено",
